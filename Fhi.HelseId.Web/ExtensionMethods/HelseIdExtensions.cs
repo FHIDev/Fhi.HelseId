@@ -1,22 +1,23 @@
-﻿using Fhi.HelseId.Common.Identity;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;
 using Fhi.HelseId.Web.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Fhi.HelseId.Web.ExtensionMethods
 {
     public static class HelseIdExtensions
     {
-        public static void DefaultHelseIdOptions(this CookieAuthenticationOptions options, 
-            IHelseIdWebKonfigurasjon configAuth, 
+        public static void DefaultHelseIdOptions(this CookieAuthenticationOptions options,
+            IHelseIdWebKonfigurasjon configAuth,
             IRedirectPagesKonfigurasjon redirectPagesKonfigurasjon)
         {
             options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
@@ -29,9 +30,9 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             // This is because it overrides the events set here.
         }
 
-        public static void DefaultHelseIdOptions(this OpenIdConnectOptions options, 
-            IHelseIdWebKonfigurasjon configAuth, 
-            IRedirectPagesKonfigurasjon redirectPagesKonfigurasjon, 
+        public static void DefaultHelseIdOptions(this OpenIdConnectOptions options,
+            IHelseIdWebKonfigurasjon configAuth,
+            IRedirectPagesKonfigurasjon redirectPagesKonfigurasjon,
             IHelseIdSecretHandler secretHandler)
         {
             var acrValues = GetAcrValues(configAuth); // spesielt for id-porten, e.g. krever sikkerhetsnivå 4
@@ -50,6 +51,13 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             options.Scope.Clear();
             //options.CorrelationCookie.SameSite = SameSiteMode.Lax;
             //options.NonceCookie.SameSite = SameSiteMode.Lax;
+
+            if (configAuth.RequireHprNumber)
+            {
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.ClaimActions.MapUniqueJsonKey(ClaimsPrincipalExtensions.HprDetails, ClaimsPrincipalExtensions.HprDetails);
+            }
+
             foreach (var scope in configAuth.AllScopes)
             {
                 options.Scope.Add(scope.Trim());
@@ -102,7 +110,7 @@ namespace Fhi.HelseId.Web.ExtensionMethods
 
             string GetAcrValues(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
             {
-                return string.Join(' ',helseIdWebKonfigurasjon.SecurityLevels.Select(sl => $"Level{sl}"));
+                return string.Join(' ', helseIdWebKonfigurasjon.SecurityLevels.Select(sl => $"Level{sl}"));
             }
         }
 
@@ -112,11 +120,11 @@ namespace Fhi.HelseId.Web.ExtensionMethods
         /// </summary>
         /// <param name="options"></param>
         /// <param name="refreshBeforeExpirationTime">Tid i minutter</param>
-        public static void DefaultHelseIdOptions(this AutomaticTokenManagementOptions options,double refreshBeforeExpirationTime)
+        public static void DefaultHelseIdOptions(this AutomaticTokenManagementOptions options, double refreshBeforeExpirationTime)
         {
             options.RefreshBeforeExpiration = TimeSpan.FromMinutes(refreshBeforeExpirationTime);
             options.RevokeRefreshTokenOnSignout = true;
-            options.Scheme = HelseIdContext.Scheme; 
+            options.Scheme = HelseIdContext.Scheme;
 
             options.CookieEvents.OnRedirectToAccessDenied = ctx =>
             {

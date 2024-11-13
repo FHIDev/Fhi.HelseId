@@ -1,46 +1,46 @@
-﻿using System.Threading.Tasks;
-using Fhi.HelseId.Common.Configuration;
+﻿using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.ExtensionMethods;
-using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Fhi.HelseId.Web.Hpr
 {
     public class HprGodkjenningAuthorizationHandler : AuthorizationHandler<HprGodkjenningAuthorizationRequirement>
     {
-        private readonly IHprFactory _hprFactory;
-        private readonly IWhitelist whitelist;
+        private readonly IHprService _hprService;
+        private readonly IWhitelist _whitelist;
 
         private ILogger<HprGodkjenningAuthorizationHandler> Logger { get; }
-        public HprGodkjenningAuthorizationHandler(IHprFactory hprFactory, IWhitelist whitelist, ILogger<HprGodkjenningAuthorizationHandler> logger)
+        public HprGodkjenningAuthorizationHandler(IHprService hprService, IGodkjenteHprKategoriListe godkjenninger, IWhitelist whitelist, ILogger<HprGodkjenningAuthorizationHandler> logger)
         {
-            this.whitelist = whitelist;
-            _hprFactory = hprFactory;
+            _whitelist = whitelist;
+            _hprService = hprService;
+            _hprService.LeggTilGodkjenteHelsepersonellkategorier(godkjenninger);
             Logger = logger;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, HprGodkjenningAuthorizationRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HprGodkjenningAuthorizationRequirement requirement)
         {
             var currentUser = context.User;
             var userlogName = currentUser.Name().ObfuscateName();
             Logger.LogTrace("HprGodkjenningAuthorizationHandler: Checking {Name}", userlogName);
-            if (!currentUser.Identity?.IsAuthenticated??false)
+            if (!currentUser.Identity?.IsAuthenticated ?? false)
             {
                 Logger.LogWarning("HprGodkjenningAuthorizationHandler: Bruker {UserlogName} er ikke autentisiert", userlogName);
                 context.Fail();
-                return;
+                return Task.CompletedTask;
             }
             var hprNummer = currentUser.HprNumber();
             if (hprNummer == null)
             {
                 Logger.LogWarning("HprGodkjenningAuthorizationHandler: Bruker {UserlogName} har ikke hprnummer.", userlogName);
                 SjekkWhitelist();
-                return;
+                return Task.CompletedTask;
             }
-            var hprService = _hprFactory.CreateHprService();
-            var erGodkjent = await hprService.SjekkGodkjenning(hprNummer);
+
+            var erGodkjent = _hprService.SjekkGodkjenning();
             if (erGodkjent)
             {
                 Logger.LogTrace("HprGodkjenningAuthorizationHandler: {Name} autentisert", userlogName);
@@ -52,9 +52,11 @@ namespace Fhi.HelseId.Web.Hpr
                 SjekkWhitelist();
             }
 
+            return Task.CompletedTask;
+
             void SjekkWhitelist()
             {
-                if (whitelist.IsWhite(currentUser.PidPseudonym() ?? ""))
+                if (_whitelist.IsWhite(currentUser.PidPseudonym() ?? ""))
                 {
                     Logger.LogWarning("HprGodkjenningAuthorizationHandler: Bruker {UserlogName} er whitelisted.", userlogName);
                     context.Succeed(requirement);

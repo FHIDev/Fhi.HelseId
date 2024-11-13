@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Web.Handlers;
@@ -10,16 +9,12 @@ namespace Fhi.HelseId.Web;
 public interface IHelseIdHprFeatures
 {
     bool IncludeHprNumber { get; }
-    bool UseHprNumber { get; }
-    bool UseHprPolicy { get; }
-    string HprUsername { get; set; }
-    string HprPassword { get; set; }
-    string HprUrl { get; set; }
+    bool RequireHprNumber { get; }
+    bool RequireValidHprAuthorization { get; }
 }
 
 public interface IHelseIdWebKonfigurasjon : IHelseIdHprFeatures, IHelseIdClientKonfigurasjon
 {
-
     string[] SecurityLevels { get; }
     bool UseProtectedPaths { get; set; }
     RedirectPagesKonfigurasjon RedirectPagesKonfigurasjon { get; set; }
@@ -34,13 +29,14 @@ public interface IHelseIdWebKonfigurasjon : IHelseIdHprFeatures, IHelseIdClientK
 }
 
 
-[SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
 public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKonfigurasjon
 {
+    private bool _useHprNumber = false;
+    private bool _requireValidHprAuthorization = false;
+
     public string DevelopmentRedirectUri { get; set; } = "/";
 
     public string[] SecurityLevels { get; set; } = ["3", "4"];
-
 
     protected override IEnumerable<string> FixedScopes
     {
@@ -54,7 +50,7 @@ public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKo
                 "helseid://scopes/identity/pid_pseudonym",
                 "helseid://scopes/identity/security_level"
             };
-            if (IncludeHprNumber || UseHprNumber || UseHprPolicy)
+            if (IncludeHprNumber || RequireHprNumber || RequireValidHprAuthorization)
             {
                 list.Add("helseid://scopes/hpr/hpr_number");
             }
@@ -64,14 +60,33 @@ public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKo
     }
 
     public bool IncludeHprNumber { get; set; } = false;
-    public bool UseHpr { get; set; } = false;
-    public bool UseHprNumber { get; set; } = false;
-    public bool UseHprPolicy { get; set; } = false;
 
-    public string HprUsername { get; set; } = "";
-    public string HprPassword { get; set; } = "";
+    public bool RequireHprNumber
+    {
+        get => _useHprNumber;
+        set
+        {
+            if (value)
+            {
+                IncludeHprNumber = value;
+            }
+            _useHprNumber = value;
+        }
+    }
 
-    public string HprUrl { get; set; } = "";
+    public bool RequireValidHprAuthorization
+    {
+        get => _requireValidHprAuthorization;
+        set
+        {
+            if (value)
+            {
+                IncludeHprNumber = value;
+                RequireHprNumber = value;
+            }
+            _requireValidHprAuthorization = value;
+        }
+    }
 
     public bool UseProtectedPaths { get; set; } = true;
 

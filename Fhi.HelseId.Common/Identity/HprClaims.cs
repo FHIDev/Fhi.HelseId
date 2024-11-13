@@ -7,6 +7,7 @@ public static class ClaimsPrincipalExtensions
 {
     private const string Prefix = HelseIdUriPrefixes.Claims + "hpr/";
     public const string HprNummer = Prefix + "hpr_number";
+    public const string HprDetails = "helseid://claims/hpr/hpr_details";
 
     public static string? HprNumber(this ClaimsPrincipal user) =>
         user.Claims.FirstOrDefault(x => x.Type == HprNummer)?.Value;

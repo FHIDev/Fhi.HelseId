@@ -67,18 +67,18 @@ public class HelseIdWebAuthBuilder
         if (HelseIdWebKonfigurasjon.AuthUse)
         {
             _services.AddSingleton<IGodkjenteHprKategoriListe, NoHprApprovals>();
-            if (HelseIdWebKonfigurasjon.UseHprPolicy)
+            if (HelseIdWebKonfigurasjon.RequireValidHprAuthorization)
             {
-                _services.AddSingleton<IAuthorizationHandler, HprGodkjenningAuthorizationHandler>();
-                _services.AddSingleton<IAuthorizationHandler, HprAuthorizationHandler>();
+                _services.AddScoped<IAuthorizationHandler, HprGodkjenningAuthorizationHandler>();
+                _services.AddScoped<IAuthorizationHandler, HprAuthorizationHandler>();
             }
-            else if (HelseIdWebKonfigurasjon.UseHprNumber)
-                _services.AddSingleton<IAuthorizationHandler, HprAuthorizationHandler>();
+            else if (HelseIdWebKonfigurasjon.RequireHprNumber)
+                _services.AddScoped<IAuthorizationHandler, HprAuthorizationHandler>();
 
             _services.AddSingleton<IWhitelist>(HelseIdWebKonfigurasjon.Whitelist);
             _services.AddSingleton<IAutentiseringkonfigurasjon>(HelseIdWebKonfigurasjon);
             _services.AddMemoryCache();
-            _services.AddSingleton<IHprFactory, HprFactory>();
+            _services.AddScoped<IHprService, HprService>();
             _services.AddSingleton<IAuthorizationHandler, SecurityLevelClaimHandler>();
             JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -256,7 +256,7 @@ public class HelseIdWebAuthBuilder
             excluded.AddRange(excludeList);
 
         app.UseProtectPaths(
-            new ProtectPathsOptions(DeterminePresidingPolicy(), RedirectPagesKonfigurasjon.Forbidden)
+            new ProtectPathsOptions(DeterminePrecedingPolicy(), RedirectPagesKonfigurasjon.Forbidden)
             {
                 Exclusions = excluded
             });
@@ -285,14 +285,14 @@ public class HelseIdWebAuthBuilder
             .AddRequirements(new SecurityLevelOrApiRequirement())
             .Build();
 
-        if (HelseIdWebKonfigurasjon.UseHprNumber)
+        if (HelseIdWebKonfigurasjon.RequireHprNumber)
         {
             var hprNumberPolicyBuilder = new AuthorizationPolicyBuilder()
                 .Combine(hidOrApiPolicy);
             hprNumberPolicyBuilder.Requirements.Add(new HprAuthorizationRequirement());
             var hprNumberPolicy = hprNumberPolicyBuilder.Build();
 
-            if (HelseIdWebKonfigurasjon.UseHprPolicy)
+            if (HelseIdWebKonfigurasjon.RequireValidHprAuthorization)
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .Combine(hprNumberPolicy);
@@ -329,15 +329,16 @@ public class HelseIdWebAuthBuilder
     }
 
     /// <summary>
-    /// Determine the presiding policy from configuration.
-    /// Will return Policies.Authenticated if no other policies are configured.
+    /// Determine the preceding policy from configuration.
+    /// Will return the most "restrictive" policy configured, or 
+    /// Policies.HidOrApi if no policies are configured.
     /// </summary>
     /// <returns></returns>
-    private string DeterminePresidingPolicy()
+    private string DeterminePrecedingPolicy()
         => new[]
             {
-                new { PolicyActive = HelseIdWebKonfigurasjon.UseHprNumber && HelseIdWebKonfigurasjon.UseHprPolicy, Policy = Policies.GodkjentHprKategoriPolicy},
-                new { PolicyActive = HelseIdWebKonfigurasjon.UseHprNumber, Policy = Policies.HprNummer },
+                new { PolicyActive = HelseIdWebKonfigurasjon.RequireHprNumber && HelseIdWebKonfigurasjon.RequireValidHprAuthorization, Policy = Policies.GodkjentHprKategoriPolicy},
+                new { PolicyActive = HelseIdWebKonfigurasjon.RequireHprNumber, Policy = Policies.HprNummer },
                 new { PolicyActive = true, Policy = Policies.HidOrApi },
                 new { PolicyActive = true, Policy = Policies./*Hid*/Authenticated }
             }
