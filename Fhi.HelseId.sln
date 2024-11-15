@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE.md = LICENSE.md
 		nuget.config = nuget.config
-		readme.md = readme.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fhi.HelseId.Tests", "Fhi.HelseId.Tests\Fhi.HelseId.Tests.csproj", "{7ED5EF48-028C-4AB2-A26E-55BD6B20B9EB}"

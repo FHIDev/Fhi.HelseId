@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <PackageDescription>Account controllers for use with OAuth and HelseId</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="HtmlFiles\**\*.html" Pack="true" PackagePath="content" />
@@ -34,5 +35,8 @@
     <Content Update="HtmlFiles\Statuscode.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>

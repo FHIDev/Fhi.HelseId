@@ -29,5 +29,3 @@ It also includes a UserController with a method `User` that displays information
 ### Default Html files
 
 The package also adds four default pages, for `Error`, `Forbidden`, `LoggedOut` and `StatusCode` in the wwwroot folder.
-
-

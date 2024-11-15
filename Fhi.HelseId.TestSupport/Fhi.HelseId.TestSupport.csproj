@@ -2,9 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsTestProject>false</IsTestProject>
-    <PackageDescription>Base classes for testing an implementation using Fhi.HelseId</PackageDescription>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <PackageDescription>Base classes for testing an implementation using Fhi.HelseId</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectCapability Remove="TestContainer" />
@@ -20,5 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Fhi.HelseId.Api\Fhi.HelseId.Api.csproj" />
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>

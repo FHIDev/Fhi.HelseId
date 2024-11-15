@@ -5,6 +5,7 @@
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release</Configurations>
     <PackageDescription>Authentication and authorization component for access to NHN HelseId in user-facing web applications</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>  
   <ItemGroup>
     <PackageReference Include="Azure.Identity" />
@@ -21,6 +22,9 @@
     <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fhi.HelseId.Common\Fhi.HelseId.Common.csproj" />
+    <ProjectReference Include="..\Fhi.HelseId.Common\Fhi.HelseId.Common.csproj" />    
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
