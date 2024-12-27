@@ -103,7 +103,6 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             };
 
             options.AccessDeniedPath = redirectPagesKonfigurasjon.Forbidden;
-
             if (configAuth.UseDPoPTokens)
             {
                 options.ForwardDPoPContext();

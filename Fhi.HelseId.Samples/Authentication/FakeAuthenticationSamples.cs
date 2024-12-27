@@ -1,10 +1,8 @@
 ﻿using System.Net;
-using System.Security.Claims;
 using Fhi.HelseId.Common.Identity;
-using Fhi.HelseId.Integration.Tests.TestFramework;
-using Fhi.HelseId.Web;
 using Fhi.HelseId.Web.ExtensionMethods;
-using Fhi.TestFramework.AuthenticationSchemes.CookieScheme;
+using Fhi.TestFramework;
+using Fhi.TestFramework.AuthenticationSchemes.CookieAuthenticationScheme;
 using Fhi.TestFramework.Extensions;
 using Fhi.TestFramework.NHNTTT;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 
-namespace Fhi.Samples.TestFramework.Authentication
+namespace Fhi.TestFramework.Samples.Authentication
 {
     internal class FakeAuthenticationSamples
     {
@@ -56,8 +54,11 @@ namespace Fhi.Samples.TestFramework.Authentication
             var response = await client.GetAsync("/api/test-endpoint");
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(responseBody, Is.EqualTo("Line Danser"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(responseBody, Is.EqualTo("Line Danser"));
+            });
         }
 
         /// <summary>
@@ -95,8 +96,11 @@ namespace Fhi.Samples.TestFramework.Authentication
             var response = await client.GetAsync("/api/test-endpoint");
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(responseBody, Is.EqualTo("GRØNN VITS"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(responseBody, Is.EqualTo("GRØNN VITS"));
+            });
         }
 
 
@@ -108,12 +112,17 @@ namespace Fhi.Samples.TestFramework.Authentication
         [Ignore("Sample of how to override OIDC events")]
         public async Task OverrideOIDCEvents()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues();
-            var appSettings = config.CreateConfigurationRoot();
+            var appsettingsConfig = new Dictionary<string, string?>
+            {
+                { "HelseIdWebKonfigurasjon:AuthUse", "false" },
+                { "HelseIdWebKonfigurasjon:Authority", "https://helseid-sts.test.nhn.no/" }
+            };
+            var config = appsettingsConfig.BuildInMemoryConfiguration();
             var builder = WebApplicationBuilderTestHost.CreateWebHostBuilder()
              .WithServices(services =>
              {
-                 services.AddHelseIdWebAuthentication(appSettings).Build();
+                 // Sample of using HelseId library
+                 services.AddHelseIdWebAuthentication(config).Build();
 
                  //Create a new IConfigureNamedOptions to override OIDC authentication scheme options
                  services.AddSingleton<IConfigureOptions<OpenIdConnectOptions>, ConfigureOidcOptions>();
@@ -142,12 +151,16 @@ namespace Fhi.Samples.TestFramework.Authentication
         [Ignore("Sample of how to override Cookie events")]
         public async Task OverrideCookie()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues();
-            var appSettings = config.CreateConfigurationRoot();
+            var appsettingsConfig = new Dictionary<string, string?>
+            {
+                { "HelseIdWebKonfigurasjon:AuthUse", "false" },
+                { "HelseIdWebKonfigurasjon:Authority", "https://helseid-sts.test.nhn.no/" }
+            };
+            var config = appsettingsConfig.BuildInMemoryConfiguration();
             var builder = WebApplicationBuilderTestHost.CreateWebHostBuilder()
              .WithServices(services =>
              {
-                 services.AddHelseIdWebAuthentication(appSettings).Build();
+                 services.AddHelseIdWebAuthentication(config).Build();
 
                  //Simulate cookie
                  services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureCookieAuthenticationOptions>();
