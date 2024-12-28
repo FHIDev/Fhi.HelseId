@@ -3,7 +3,7 @@ using Fhi.HelseId.Web.DPoP;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Web;
+namespace Fhi.HelseId.Web.UnitTests;
 
 public class JsonWebKeyExtensionsTests
 {

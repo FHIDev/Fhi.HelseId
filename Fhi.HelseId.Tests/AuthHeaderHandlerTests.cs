@@ -20,6 +20,7 @@ using NUnit.Framework;
 
 namespace Fhi.HelseId.Tests;
 
+// TODO: remove? What do we want to achieve with these tests?
 public class AuthHeaderHandlerTests
 {
     [Test]

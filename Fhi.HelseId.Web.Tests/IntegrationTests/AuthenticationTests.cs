@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Web;
+using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.HelseId.Web.IntegrationTests.Setup;
 using Fhi.TestFramework;
@@ -20,7 +21,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         public async Task DefaultHelseIdConfiguration_NoAuthCookieOnApiCall_Return401WithRedirectToIdentityProvider()
         {
             var config = HelseIdWebKonfigurasjonBuilder.Create
-                .AddDefaultValues()
+                .Default()
                 .CreateConfigurationRoot();
 
             var app = WebApplicationBuilderTestHost.CreateWebHostBuilder()
@@ -43,11 +44,11 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
 
         [Test]
-        public async Task ScopeConfigured_NoAuthCookieOnApiCall_Return401WithRedirectToIdentityProvider()
+        public async Task ScopeConfigured_NoAuthCookieOnApiCall_Return401WithRedirectToIdentityProviderAndConfiguredScopes()
         {
             var helseIdConfig = HelseIdWebKonfigurasjonBuilder.Create
-                .AddDefaultValues();
-            helseIdConfig.Scopes = ["aditional_scope"];
+                .Default();
+            helseIdConfig.Scopes = ["scope1", "scope2"];
             var config = helseIdConfig.CreateConfigurationRoot();
 
             var app = WebApplicationBuilderTestHost.CreateWebHostBuilder()
@@ -65,9 +66,36 @@ namespace Fhi.HelseId.Web.IntegrationTests
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
             var queryParams = HttpUtility.ParseQueryString(response.Headers.Location!.Query);
-            Assert.That(queryParams["scope"], Is.EqualTo("openid profile helseid://scopes/identity/pid helseid://scopes/identity/pid_pseudonym helseid://scopes/identity/security_level offline_access"));
-            Assert.That(queryParams["redirect_uri"], Is.EqualTo("http://localhost/signin-callback"));
+            Assert.That(queryParams["scope"], Is.EqualTo("openid profile helseid://scopes/identity/pid helseid://scopes/identity/pid_pseudonym helseid://scopes/identity/security_level offline_access scope1 scope2"));
         }
+
+        [Test]
+        public async Task IncludeHprNumber_NoAuthCookieOnApiCall_Return401WithRedirectToIdentityProviderAndHprNumberScope()
+        {
+            var helseIdConfig = HelseIdWebKonfigurasjonBuilder.Create
+                .Default()
+                .WithIncludeHprNumber(true);
+
+            var config = helseIdConfig.CreateConfigurationRoot();
+
+            var app = WebApplicationBuilderTestHost.CreateWebHostBuilder()
+                .WithConfiguration(config)
+                .WithServices(services =>
+                {
+                    services.AddHelseIdWebAuthentication(config)
+                   .Build();
+                })
+                .BuildApp(UseEndpointAuthenticationAndAuthorization());
+
+            app.Start();
+            var client = app.GetTestClient();
+            var response = await client.GetAsync("/api/testauthentication");
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+            var queryParams = HttpUtility.ParseQueryString(response.Headers.Location!.Query);
+            Assert.That(queryParams["scope"], Does.Contain("helseid://scopes/hpr/hpr_number"));
+        }
+
 
         /// <summary>
         /// Test signin callback with token
@@ -78,7 +106,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         [Ignore("Will be implemented later")]
         public async Task DefaultHelseIdConfiguration_InvalidTokenRecieved_()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues();
+            var config = HelseIdWebKonfigurasjonBuilder.Create.Default();
             var configRoot = config.CreateConfigurationRoot();
             var app = WebApplicationBuilderTestHost.CreateWebHostBuilder()
                 .WithConfiguration(configRoot)

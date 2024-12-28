@@ -1,13 +1,17 @@
 ﻿using System.Linq;
 using Fhi.HelseId.Web.ExtensionMethods;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests
+namespace Fhi.HelseId.Web.UnitTests
 {
-    public class HelseIdWebKonfigurasjonTests : BaseConfigTests
+    public class HelseIdWebKonfigurasjonTests
     {
         [SetUp]
-        public void Init() => base.Init();
+        public void Init()
+        {
+            Config = GetIConfigurationRoot(TestContext.CurrentContext.TestDirectory + "\\UnitTests", "appsettings.test.json");
+        }
 
         [Test]
         public void HelseIdWebConfigurationTest()
@@ -35,7 +39,7 @@ namespace Fhi.HelseId.Tests
         {
             var sut = Config?.GetWebKonfigurasjon();
             Assert.That(sut, Is.Not.Null, "Can't load appsettings.test.json");
-            sut.RequireHprNumber = true;
+            sut!.RequireHprNumber = true;
             Assert.Multiple(() =>
             {
                 Assert.That(sut!.Authority, Does.Contain("helseid-sts"), "1");
@@ -50,6 +54,16 @@ namespace Fhi.HelseId.Tests
                 Assert.That(sut.NoAuthenticationUser, Is.Not.Null);
                 Assert.That(sut.NoAuthenticationUser.Claims, Has.Count.EqualTo(3));
             });
+        }
+
+        protected IConfigurationRoot? Config { get; private set; }
+
+        private IConfigurationRoot GetIConfigurationRoot(string outputPath, string filename)
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(outputPath)
+                .AddJsonFile(filename, optional: true)
+                .Build();
         }
     }
 }

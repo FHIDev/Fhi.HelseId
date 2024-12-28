@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Web;
+namespace Fhi.HelseId.Web.UnitTests;
 
 internal class JwtThumbprintAttacherTests
 {

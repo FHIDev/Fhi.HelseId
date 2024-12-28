@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Fhi.HelseId.Web.DPoP;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Web;
+namespace Fhi.HelseId.Web.UnitTests;
 
 public class NonceStoreTests
 {

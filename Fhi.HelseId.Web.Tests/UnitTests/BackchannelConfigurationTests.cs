@@ -1,12 +1,11 @@
-﻿using System.Net.Http;
-using Fhi.HelseId.Common.Identity;
+﻿using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.DPoP;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Web;
+namespace Fhi.HelseId.Web.UnitTests;
 
 public class BackchannelConfigurationTests
 {

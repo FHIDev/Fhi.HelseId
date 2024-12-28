@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using NSubstitute;
-using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Api;
+namespace Fhi.HelseId.Api.UnitTests;
 
 internal class DPoPExtensionsTests
 {
-    private HttpRequest _httpRequestMock;
+    private HttpRequest? _httpRequestMock;
     private const string DPoPToken = "dpop-token";
     private const string DPoPProof = "dpop-proof";
 
@@ -25,7 +24,7 @@ internal class DPoPExtensionsTests
         _httpRequestMock!.Headers.Authorization = $"DPoP {DPoPToken}";
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPAccessToken(_httpRequestMock, out var token);
+        var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
         // Assert
         Assert.That(result, Is.True);
@@ -39,7 +38,7 @@ internal class DPoPExtensionsTests
         _httpRequestMock!.Headers.Authorization = $"DPOP {DPoPToken}";
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPAccessToken(_httpRequestMock, out var token);
+        var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
         // Assert
         Assert.That(result, Is.True);
@@ -50,10 +49,10 @@ internal class DPoPExtensionsTests
     public void TryGetDPoPAccessToken_AuthorizationHeaderMissing_ReturnsFalseAndEmptyToken()
     {
         // Arrange
-        _httpRequestMock.Headers.Authorization = null as string;
+        _httpRequestMock!.Headers.Authorization = null as string;
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPAccessToken(_httpRequestMock, out var token);
+        var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
         // Assert
         Assert.That(result, Is.False);
@@ -64,10 +63,10 @@ internal class DPoPExtensionsTests
     public void TryGetDPoPAccessToken_AuthorizationHeaderWrongSchema_ReturnsFalseAndEmptyToken()
     {
         // Arrange
-        _httpRequestMock.Headers.Authorization = "Bearer invalid-token";
+        _httpRequestMock!.Headers.Authorization = "Bearer invalid-token";
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPAccessToken(_httpRequestMock, out var token);
+        var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
         // Assert
         Assert.That(result, Is.False);
@@ -78,10 +77,10 @@ internal class DPoPExtensionsTests
     public void TryGetDPoPProof_DPoPProofHeaderExists_ReturnsTrueAndProof()
     {
         // Arrange
-        _httpRequestMock.Headers["DPoP"] = DPoPProof;
+        _httpRequestMock!.Headers["DPoP"] = DPoPProof;
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPProof(_httpRequestMock, out var proof);
+        var result = _httpRequestMock.TryGetDPoPProof(out var proof);
 
         // Assert
         Assert.That(result, Is.True);
@@ -92,10 +91,10 @@ internal class DPoPExtensionsTests
     public void TryGetDPoPProof_DPoPProofHeaderMissing_ReturnsFalseAndEmptyProof()
     {
         // Arrange
-        _httpRequestMock.Headers["DPoP"] = null as string;
+        _httpRequestMock!.Headers["DPoP"] = null as string;
 
         // Act
-        var result = DPoPExtensions.TryGetDPoPProof(_httpRequestMock, out var proof);
+        var result = _httpRequestMock.TryGetDPoPProof(out var proof);
 
         // Assert
         Assert.That(result, Is.False);

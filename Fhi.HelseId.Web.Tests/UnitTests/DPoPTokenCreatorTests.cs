@@ -1,9 +1,5 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Fhi.HelseId.Common.DPoP;
 using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Services;
@@ -11,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.DPoP.Web;
+namespace Fhi.HelseId.Web.UnitTests;
 
 internal class DPoPTokenCreatorTests
 {

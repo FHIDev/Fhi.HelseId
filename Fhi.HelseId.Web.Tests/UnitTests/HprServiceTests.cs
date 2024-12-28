@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Fhi.HelseId.Web.Hpr;
+﻿using Fhi.HelseId.Web.Hpr;
 using Fhi.HelseId.Web.Hpr.Core;
 using Fhi.HelseId.Web.Services;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests.Hpr
+namespace Fhi.HelseId.Web.UnitTests
 {
     public class HprServiceTests
     {
-        private const string Hprnummer = "123456789";
-
         private ICurrentUser? _currentUser;
         private HprService? _hprService;
 

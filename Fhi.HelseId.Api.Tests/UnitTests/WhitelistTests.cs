@@ -2,9 +2,8 @@
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;
 using NSubstitute;
-using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests
+namespace Fhi.HelseId.Api.UnitTests
 {
     public class WhitelistTests
     {

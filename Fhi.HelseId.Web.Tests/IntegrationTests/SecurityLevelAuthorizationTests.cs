@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.HelseId.Web.IntegrationTests.Setup;
 using Fhi.TestFramework;
@@ -14,7 +15,7 @@ using NUnit.Framework;
 
 namespace Fhi.HelseId.Web.IntegrationTests
 {
-    internal class AuthorizationTests
+    internal class SecurityLevelAuthorizationTests
     {
         /// <summary>
         /// Required security level is missing from token
@@ -23,7 +24,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         [Test]
         public async Task SecurityLevelConfigured_AuthenticatedUserCallingAPIWithMissingSecurityLevelInToken_Return403()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues().WithSecurityLevel(["3"]);
+            var config = HelseIdWebKonfigurasjonBuilder.Create.Default().WithSecurityLevel(["3"]);
             var (accessToken, idToken) = await CreateAccessAndIdToken(config.ClientId, config.AllScopes.ToList(), securityLevel: null);
 
             var appSettings = config.CreateConfigurationRoot();
@@ -45,7 +46,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         [Test]
         public async Task SecurityLevelConfigured_AuthenticatedUserCallingAPIWithSecurityLevelInTokenThatIsHigherThanConfigured_Return200()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues().WithSecurityLevel(["3"]);
+            var config = HelseIdWebKonfigurasjonBuilder.Create.Default().WithSecurityLevel(["3"]);
             var (accessToken, idToken) = await CreateAccessAndIdToken(config.ClientId, config.AllScopes.ToList(), securityLevel: "4");
 
             var appSettings = config.CreateConfigurationRoot();
@@ -67,7 +68,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         [Test]
         public async Task SecurityLevelConfigured_AuthenticatedUserCallingAPIWithSecurityLevelInTokenThatIsLowerThanConfigured_Return403()
         {
-            var config = HelseIdWebKonfigurasjonBuilder.Create.AddDefaultValues().WithSecurityLevel(["4"]);
+            var config = HelseIdWebKonfigurasjonBuilder.Create.Default().WithSecurityLevel(["4"]);
             var (accessToken, idToken) = await CreateAccessAndIdToken(config.ClientId, config.AllScopes.ToList(), securityLevel: "2");
 
             var appSettings = config.CreateConfigurationRoot();

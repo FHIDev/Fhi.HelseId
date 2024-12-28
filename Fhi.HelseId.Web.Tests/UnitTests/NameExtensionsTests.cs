@@ -1,7 +1,7 @@
 ﻿using Fhi.HelseId.Web.ExtensionMethods;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Tests
+namespace Fhi.HelseId.Web.UnitTests
 {
     public class NameExtensionsTests
     {
