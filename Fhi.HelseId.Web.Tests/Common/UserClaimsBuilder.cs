@@ -33,14 +33,14 @@ namespace Fhi.HelseId.Web.Common
         {
             var approvalResponse = new ApprovalResponse()
             {
-                Approvals = new List<Approval>()
-                {
+                Approvals =
+                [
                     new Approval()
                     {
                         Profession = profession.ToString(),
                         Authorization = new ApprovalResponse.Authorization() { Value = authorizationValue, Description = authorizationDescription },
                     }
-                }
+                ]
             };
             _claims.Add(new(ClaimsPrincipalExtensions.HprDetails, approvalResponse.Serialize()));
             return this;

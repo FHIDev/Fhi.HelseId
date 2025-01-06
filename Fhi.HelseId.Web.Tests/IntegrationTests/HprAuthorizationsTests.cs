@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Security.Claims;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
@@ -17,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using static ApprovalResponse;
 
 namespace Fhi.HelseId.Web.IntegrationTests
 {
@@ -197,7 +195,6 @@ namespace Fhi.HelseId.Web.IntegrationTests
             });
         }
 
-       
         [Test]
         public async Task RequireValidHprAuthorization_AuthenticatedUserHasValidHprNumberHprDetailclaimIsMissing_ValidateHprNumberAndHprAuthorizationReturnForbidden()
         {
@@ -246,8 +243,50 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
 
         [Test]
-        public void RequireValidHprAuthorizationOrHprNumper_AuthenticatedUserIsNotApprovedButIsWhitelisted_ReturnOk()
+        public async Task RequireValidHprAuthorizationOrHprNumper_AuthenticatedUserDoesNotHaveHprAuthorizationButIsWhitelisted_ReturnOk()
         {
+            var userClaims = UserClaimsBuilder.Create()
+             .WithSecurityLevel("4")
+             .WithName("Line Danser")
+             .Build();
+
+            var config = HelseIdWebKonfigurasjonBuilder.Create
+              .Default()
+              .WithRequireHprNumber(true)
+              .WithRequireValidHprAuthorization(true);
+
+            var appSettings = config.CreateConfigurationRoot();
+            var app = WebApplicationBuilderTestHost
+                .CreateWebHostBuilder()
+                .WithConfiguration(appSettings)
+                .WithServices(services =>
+                {
+                    services.AddSingleton<IAuthorizationMiddlewareResultHandler, FakeAuthorizationResultHandler>();
+                    services.AddFakeTestAuthenticationScheme(userClaims);
+                    services.AddHelseIdWebAuthentication(appSettings).Build();
+
+                    var godKjenninger = new GodkjenteHprKategoriListe();
+                    godKjenninger.Add(Kodekonstanter.OId9060Sykepleier);
+                    services.AddSingleton<IGodkjenteHprKategoriListe>(godKjenninger);
+                })
+                .BuildApp(WithAuthenticationAndAuthorization());
+
+            app.Start();
+            var client = app.GetTestClient();
+            var response = await client.GetAsync("/api/test-endpoint");
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            var content = (await response.Content.ReadAsStringAsync()).Deserialize<AuthorizationResponse>();
+            Assert.Multiple(() =>
+            {
+                Assert.That(content!.UserName, Is.EqualTo("Line Danser"));
+                Assert.That(content.Requirements.Count, Is.EqualTo(4));
+                Assert.That(content.Requirements.Contains("HprAuthorizationRequirement"));
+                Assert.That(content.Requirements.Contains("HprGodkjenningAuthorizationRequirement"));
+                Assert.That(content.Requirements.Contains("SecurityLevelOrApiRequirement"));
+                Assert.That(content.Requirements.Contains("DenyAnonymousAuthorizationRequirement"));
+            });
+
         }
 
         private static Action<WebApplication> WithAuthenticationAndAuthorization()

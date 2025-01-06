@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Fhi.HelseId.Web.ExtensionMethods;
+﻿using Fhi.HelseId.Web.ExtensionMethods;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
@@ -58,7 +57,7 @@ namespace Fhi.HelseId.Web.UnitTests
 
         protected IConfigurationRoot? Config { get; private set; }
 
-        private IConfigurationRoot GetIConfigurationRoot(string outputPath, string filename)
+        private static IConfigurationRoot GetIConfigurationRoot(string outputPath, string filename)
         {
             return new ConfigurationBuilder()
                 .SetBasePath(outputPath)
