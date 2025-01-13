@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 
-namespace Fhi.Samples.TestServerSetup
+namespace Fhi.TestFramework.Samples.HostBuilders
 {
     /// <summary>
     /// Using HostBuilder with TestServer

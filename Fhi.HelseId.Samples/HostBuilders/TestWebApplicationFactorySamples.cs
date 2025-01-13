@@ -6,7 +6,7 @@ using Fhi.TestFramework.Extensions;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
-namespace Fhi.HelseId.Samples.TestFramework
+namespace Fhi.TestFramework.Samples.HostBuilders
 {
     internal class TestWebApplicationFactorySamples
     {
@@ -15,14 +15,14 @@ namespace Fhi.HelseId.Samples.TestFramework
         {
             var inMemoryConfig = CreateConfig();
 
-            var appFactory = new WebApplicationFactoryTestHost(
+            var appFactory = new WebApplicationFactoryTestHost<Program>(
                 inMemoryConfig,
                 services =>
                 {
-                    services.AddFakeTestAuthenticationScheme(new List<Claim>
-                     {
+                    services.AddFakeTestAuthenticationScheme(
+                     [
                          new Claim(IdentityClaims.Name, "Line danser")
-                     });
+                     ]);
                     services.AddHelseIdWebAuthentication(inMemoryConfig).Build();
                 });
 
@@ -43,6 +43,4 @@ namespace Fhi.HelseId.Samples.TestFramework
             return inMemoryConfig;
         }
     }
-
-    public partial class Program { }
 }

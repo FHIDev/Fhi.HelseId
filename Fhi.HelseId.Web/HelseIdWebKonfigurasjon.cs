@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Web.Handlers;
+using Fhi.HelseId.Web.Hpr;
 
 namespace Fhi.HelseId.Web;
 
@@ -35,6 +36,10 @@ public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKo
 
     public string DevelopmentRedirectUri { get; set; } = "/";
 
+    /// <summary>
+    /// The level of security that the user was logged in with. The Security levels should not be changed,
+    /// but you can replace it to allow only level 4.  That could cause issues with some Health institutions though.
+    /// </summary>
     public string[] SecurityLevels { get; set; } = ["3", "4"];
 
     protected override IEnumerable<string> FixedScopes
@@ -59,8 +64,15 @@ public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKo
         }
     }
 
+    /// <summary>
+    /// Will set the hpr_number scope that will include hpr number in the users id_token.
+    /// </summary>
     public bool IncludeHprNumber { get; set; } = false;
 
+    /// <summary>
+    /// If true the HprAuthorizationRequirement checks if the user has an Hpr Number. Access is denyed if Hpr number does not exist.
+    /// Unless the user is whitelisted.
+    /// </summary>
     public bool RequireHprNumber
     {
         get => _useHprNumber;
@@ -75,6 +87,10 @@ public class HelseIdWebKonfigurasjon : HelseIdClientKonfigurasjon, IHelseIdWebKo
         }
     }
 
+    /// <summary>
+    /// If *RequireHprNumber*  and *RequireValidHprAuthorization* is set the HprGodkjenningAuthorizationHandler requirement checks if
+    /// the user is authorized based on the users Hpr authorization details. The allowed authorizations is set by <see cref="IGodkjenteHprKategoriListe"/>
+    /// </summary>
     public bool RequireValidHprAuthorization
     {
         get => _requireValidHprAuthorization;
