@@ -20,7 +20,7 @@ using NUnit.Framework;
 namespace Fhi.HelseId.Web.IntegrationTests
 {
     /// <summary>
-    /// Helthpersonel has HPR number and have different types of authorization such as sykepleier, lege, psykolog. These Hpr number and authorization details
+    /// Helsepersonell has HPR number and have different types of authorization such as sykepleier, lege, psykolog. These Hpr number and authorization details
     /// will be added to the token if requested scope hpr_number and/or hpr_details and can be used as a basis for authorize the user.
     /// - When RequireHprNumber is set the user must have an HprNumber unless it is in an whitelist
     /// - When RequireValidHprAuthorization is set it will check if the user has valid authorization based on provided list
