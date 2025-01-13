@@ -2,13 +2,7 @@
 {
     internal class HelseIdWebKonfigurasjonBuilder
     {
-        internal static HelseIdWebKonfigurasjon Create
-        {
-            get
-            {
-                return new HelseIdWebKonfigurasjon();
-            }
-        }
+        internal static HelseIdWebKonfigurasjon Create => new();
     }
 
     internal static class HelseIdWebKonfigurasjonExtensions

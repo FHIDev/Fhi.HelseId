@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder();
 var app = builder.Build();
 
 app.MapGet("/api/test",
-    [Authorize]
+[Authorize]
 () => "Hello world!");
 
 app.UseHttpsRedirection();

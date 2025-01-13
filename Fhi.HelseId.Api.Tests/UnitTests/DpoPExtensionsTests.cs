@@ -1,5 +1,6 @@
 ﻿using Fhi.HelseId.Api.DPoP;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using NSubstitute;
 
@@ -49,7 +50,7 @@ internal class DPoPExtensionsTests
     public void TryGetDPoPAccessToken_AuthorizationHeaderMissing_ReturnsFalseAndEmptyToken()
     {
         // Arrange
-        _httpRequestMock!.Headers.Authorization = null as string;
+        _httpRequestMock!.Headers.Authorization = StringValues.Empty;
 
         // Act
         var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);

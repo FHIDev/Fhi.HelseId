@@ -25,7 +25,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <!-- Direct reference, System.Text.Json can be removed when transitive references are fixed. (8.0.4 was vulnerable) --> 
   </ItemGroup>
   <ItemGroup>
     <Using Include="NUnit.Framework" />

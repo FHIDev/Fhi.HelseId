@@ -103,7 +103,7 @@ public class ScopeTests
                 .BuildApp(app =>
                 {
                     app.MapGet("/api/test",
-                        [Authorize]
+                    [Authorize]
                     () => "Hello world!");
                     app.UseHttpsRedirection();
                     app.UseAuthorization();

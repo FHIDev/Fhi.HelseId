@@ -172,9 +172,9 @@ namespace Fhi.HelseId.Web.IntegrationTests
                     services.AddFakeTestAuthenticationScheme(userClaims);
                     services.AddHelseIdWebAuthentication(appSettings).Build();
                 
-                    var godKjenninger = new GodkjenteHprKategoriListe();
-                    godKjenninger.Add(Kodekonstanter.OId9060Sykepleier);
-                    services.AddSingleton<IGodkjenteHprKategoriListe>(godKjenninger);
+                    var godkjenninger = new GodkjenteHprKategoriListe();
+                    godkjenninger.Add(Kodekonstanter.OId9060Sykepleier);
+                    services.AddSingleton<IGodkjenteHprKategoriListe>(godkjenninger);
                 })
                 .BuildApp(WithAuthenticationAndAuthorization());
 
