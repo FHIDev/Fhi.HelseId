@@ -219,9 +219,9 @@ namespace Fhi.HelseId.Web.IntegrationTests
                     services.AddFakeTestAuthenticationScheme(userClaims);
                     services.AddHelseIdWebAuthentication(appSettings).Build();
 
-                    var godKjenninger = new GodkjenteHprKategoriListe();
-                    godKjenninger.Add(Kodekonstanter.OId9060Sykepleier);
-                    services.AddSingleton<IGodkjenteHprKategoriListe>(godKjenninger);
+                    var godkjenninger = new GodkjenteHprKategoriListe();
+                    godkjenninger.Add(Kodekonstanter.OId9060Sykepleier);
+                    services.AddSingleton<IGodkjenteHprKategoriListe>(godkjenninger);
                 })
                 .BuildApp(WithAuthenticationAndAuthorization());
 
@@ -265,9 +265,9 @@ namespace Fhi.HelseId.Web.IntegrationTests
                     services.AddFakeTestAuthenticationScheme(userClaims);
                     services.AddHelseIdWebAuthentication(appSettings).Build();
 
-                    var godKjenninger = new GodkjenteHprKategoriListe();
-                    godKjenninger.Add(Kodekonstanter.OId9060Sykepleier);
-                    services.AddSingleton<IGodkjenteHprKategoriListe>(godKjenninger);
+                    var godkjenninger = new GodkjenteHprKategoriListe();
+                    godkjenninger.Add(Kodekonstanter.OId9060Sykepleier);
+                    services.AddSingleton<IGodkjenteHprKategoriListe>(godkjenninger);
                 })
                 .BuildApp(WithAuthenticationAndAuthorization());
 
@@ -329,35 +329,5 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
     }
 
-
     public record AuthorizationResponse(string UserName, IEnumerable<string> Requirements);
-
-    public class TestLoggerProvider(List<string> logMessages) : ILoggerProvider
-    {
-        private readonly List<string> _logMessages = logMessages;
-
-        public ILogger CreateLogger(string categoryName)
-        {
-            return new TestLogger(_logMessages);
-        }
-
-        public void Dispose() { }
-    }
-
-    public class TestLogger(List<string> logMessages) : ILogger
-    {
-        private readonly List<string> _logMessages = logMessages;
-
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
-        {
-            return null;
-        }
-
-        public bool IsEnabled(LogLevel logLevel) => true;
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-        {
-            _logMessages.Add(formatter(state, exception));
-        }
-    }
 }
