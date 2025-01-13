@@ -8,9 +8,9 @@ namespace Fhi.HelseId.Api.UnitTests;
 
 internal class DPoPExtensionsTests
 {
-    private HttpRequest? _httpRequestMock;
     private const string DPoPToken = "dpop-token";
     private const string DPoPProof = "dpop-proof";
+    private HttpRequest? _httpRequestMock;
 
     [SetUp]
     public void Setup()
@@ -27,9 +27,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(token, Is.EqualTo(DPoPToken));
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.True);
+            Assert.That(token, Is.EqualTo(DPoPToken));
+        });
     }
 
     [Test]
@@ -41,9 +44,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(token, Is.EqualTo(DPoPToken));
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.True);
+            Assert.That(token, Is.EqualTo(DPoPToken));
+        });
     }
 
     [Test]
@@ -55,9 +61,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
-        // Assert
-        Assert.That(result, Is.False);
-        Assert.That(token, Is.Empty);
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.False);
+            Assert.That(token, Is.Empty);
+        });
     }
 
     [Test]
@@ -69,9 +78,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPAccessToken(out var token);
 
-        // Assert
-        Assert.That(result, Is.False);
-        Assert.That(token, Is.Empty);
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.False);
+            Assert.That(token, Is.Empty);
+        });
     }
 
     [Test]
@@ -83,9 +95,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPProof(out var proof);
 
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(proof, Is.EqualTo(DPoPProof));
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.True);
+            Assert.That(proof, Is.EqualTo(DPoPProof));
+        });
     }
 
     [Test]
@@ -97,9 +112,12 @@ internal class DPoPExtensionsTests
         // Act
         var result = _httpRequestMock.TryGetDPoPProof(out var proof);
 
-        // Assert
-        Assert.That(result, Is.False);
-        Assert.That(proof, Is.Empty);
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result, Is.False);
+            Assert.That(proof, Is.Empty);
+        });
     }
 
     [Test]

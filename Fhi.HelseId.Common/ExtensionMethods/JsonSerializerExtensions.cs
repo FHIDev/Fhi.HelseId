@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Fhi.TestFramework.Extensions
+namespace Fhi.HelseId.Common.ExtensionMethods
 {
-    internal static class JsonSerializerExtensions
+    public static class JsonSerializerExtensions
     {
         public static JsonSerializerOptions Options = new()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
