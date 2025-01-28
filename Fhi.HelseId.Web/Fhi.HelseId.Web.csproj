@@ -22,16 +22,6 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <PackageReference Include="System.Security.Cryptography.Xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" VersionOverride="8.0.11" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" VersionOverride="8.0.11" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" VersionOverride="9.0.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" VersionOverride="9.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" VersionOverride="9.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" VersionOverride="9.0.0" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fhi.HelseId.Common\Fhi.HelseId.Common.csproj" />    
   </ItemGroup>
