@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json;
 using Fhi.ClientCredentialsKeypairs;
-using Fhi.HelseId.Api;
 using Fhi.HelseId.Api.ExtensionMethods;
 using Fhi.HelseId.Integration.Tests.HelseId.Api.Setup;
 using Fhi.TestFramework;
