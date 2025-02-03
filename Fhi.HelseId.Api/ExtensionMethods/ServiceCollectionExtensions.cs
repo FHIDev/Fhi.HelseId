@@ -73,40 +73,4 @@ public static class ServiceCollectionExtensions
                 options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
         return true;
     }
-
-    /// <summary>
-    /// Use this for Apis that need to send access tokens onwards
-    /// Default UseAuth, but can be set to false using the useAuth parameter
-    /// </summary>
-    public static IServiceCollection AddHelseIdAuthenticationServicesForApis(this IServiceCollection services, IEnumerable<ApiOutgoingKonfigurasjon> apis, bool useAuth = true)
-    {
-        services.AddScoped<AuthHeaderHandlerForApi>();
-        foreach (var api in apis)
-        {
-            if (useAuth)
-                AddHelseIdApiServicesForApi(services, api);
-            else
-                AddHelseIdApiServicesNoAuth(services, api);
-        }
-
-        return services;
-    }
-
-    private static IHttpClientBuilder AddHelseIdApiServicesNoAuth(this IServiceCollection services, IApiOutgoingKonfigurasjon api)
-    {
-        return services.AddHttpClient(api.Name, client =>
-        {
-            client.BaseAddress = api.Uri;
-            client.Timeout = TimeSpan.FromMinutes(10);
-        });
-    }
-
-    private static IHttpClientBuilder AddHelseIdApiServicesForApi(this IServiceCollection services, IApiOutgoingKonfigurasjon api)
-    {
-        return services.AddHttpClient(api.Name, client =>
-        {
-            client.BaseAddress = api.Uri;
-            client.Timeout = TimeSpan.FromMinutes(10);
-        }).AddHttpMessageHandler<AuthHeaderHandlerForApi>();
-    }
 }
