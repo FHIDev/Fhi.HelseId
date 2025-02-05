@@ -58,23 +58,18 @@ public class AuthHeaderHandler : DelegatingHandler
         var endpoint = ctx.GetEndpoint();
         var allowAnonymous = endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>();
 
-        if (allowAnonymous != null)
-        {
-            _logger.LogTrace("{class}.{method} - Skipping Access token because of anonymous metadata attribute",
-                nameof(AuthHeaderHandler), nameof(SendAsync));
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-        }
-
         _logger.LogTrace("{class}.{method} - Starting", nameof(AuthHeaderHandler), nameof(SendAsync));
         var token = await ctx.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
-        if (token == null)
+        if (token == null && allowAnonymous == null)
         {
-            _logger.LogError("{class}.{method} No access token found in context. Make sure you have added the" +
+            _logger.LogError(
+                "{class}.{method} No access token found in context. Make sure you have added the" +
                 " AddTokenManagement() to your Startup.cs",
-                nameof(AuthHeaderHandler), nameof(SendAsync));
+                nameof(AuthHeaderHandler),
+                nameof(SendAsync));
         }
-        else
+        else if (token != null)
         {
             _logger.LogTrace("{class}.{method} - Found access token in context (hash:{hash})",
                 nameof(AuthHeaderHandler), nameof(SendAsync), token.GetHashCode());
