@@ -10,6 +10,7 @@ using Fhi.HelseId.Web;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -54,7 +55,25 @@ public class AuthHeaderHandlerTests
         Assert.That(token, Is.EqualTo(""));
     }
 
-    private HttpClient SetupInfrastructure(string authToken)
+    [Test]
+    public async Task HandlerDoesNotGetTokenWhenAllowAnonymousAttributeIsPresent()
+    {
+        var authToken = Guid.NewGuid().ToString();
+        var endpoint = new Endpoint(
+            (ctx) => Task.CompletedTask,
+            new EndpointMetadataCollection(new AllowAnonymousAttribute()),
+            "Test endpoint");
+        var client = SetupInfrastructure(authToken, endpoint);
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/");
+        var response = await client.SendAsync(request);
+
+        // The dummy client returns the authorization header value if any
+        var token = await response.Content.ReadAsStringAsync();
+        Assert.That(token, Is.EqualTo(""));
+    }
+
+    private HttpClient SetupInfrastructure(string authToken, Endpoint? endpoint = null)
     {
         var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = Substitute.For<HttpContext>();
@@ -78,6 +97,11 @@ public class AuthHeaderHandlerTests
 
         var serviceProvider = services.BuildServiceProvider();
         context.RequestServices.Returns(serviceProvider);
+        if (endpoint is not null)
+        {
+            context.SetEndpoint(endpoint);
+        }
+
         httpContextAccessor.HttpContext.Returns(context);
 
         var handler = new AuthHeaderHandler(

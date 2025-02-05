@@ -8,6 +8,7 @@ using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Web;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -54,6 +55,16 @@ public class AuthHeaderHandler : DelegatingHandler
         }
 
         var ctx = _contextAccessor.HttpContext ?? throw new NoContextException();
+        var endpoint = ctx.GetEndpoint();
+        var allowAnonymous = endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>();
+
+        if (allowAnonymous != null)
+        {
+            _logger.LogTrace("{class}.{method} - Skipping Access token because of anonymous metadata attribute",
+                nameof(AuthHeaderHandler), nameof(SendAsync));
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
         _logger.LogTrace("{class}.{method} - Starting", nameof(AuthHeaderHandler), nameof(SendAsync));
         var token = await ctx.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
