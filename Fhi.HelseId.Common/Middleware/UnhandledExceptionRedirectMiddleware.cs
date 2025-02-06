@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Fhi.HelseId.Common.ExtensionMethods;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -9,28 +8,27 @@ namespace Fhi.HelseId.Common.Middleware
 {
     public class RedirectOnExceptionMiddleware
     {
-        private readonly RequestDelegate next;
-        private readonly string redirectPage;
-        private ILogger Logger { get; }
+        private readonly RequestDelegate _next;
+        private readonly string _redirectPage;
+        private readonly ILogger<RedirectOnExceptionMiddleware> _logger;
 
         public RedirectOnExceptionMiddleware(RequestDelegate next, string redirectPage, ILogger<RedirectOnExceptionMiddleware> logger)
         {
-            logger.LogMember();
-            Logger = logger;
-            this.next = next;
-            this.redirectPage = redirectPage;
+            _logger = logger;
+            _next = next;
+            _redirectPage = redirectPage;
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await next.Invoke(context);
+                await _next.Invoke(context);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Handling exception by redirecting to {page}", redirectPage);
-                context.Response.Redirect(redirectPage);
+                _logger.LogError(ex, "Handling exception by redirecting to {page}.", _redirectPage);
+                context.Response.Redirect(_redirectPage);
             }
         }
     }
