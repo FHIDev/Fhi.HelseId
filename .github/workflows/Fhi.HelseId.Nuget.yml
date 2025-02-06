@@ -24,14 +24,11 @@ jobs:
             9.0.x
 
       - name: Pack
-        run: dotnet pack
+        run: dotnet pack --output package
 
       - name: Publish nupkg and snupkg to NuGet.org
         run: |
-          $packageOutputPath = "artifacts/package/release"
-          foreach ($file in (Get-ChildItem $packageOutputPath -Recurse -Include *.nupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.NUGET_ORG_FHI_PUBLISH }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }
-          foreach ($file in (Get-ChildItem $packageOutputPath -Recurse -Include *.snupkg)) {
-              dotnet nuget push $file --api-key "${{ secrets.NUGET_ORG_FHI_PUBLISH }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          foreach($file in (Get-ChildItem -Path package -Recurse -Include "*.nupkg")) {
+              Write-Host "Publishing nupkg and snupkg:: " $file.FullName
+              dotnet nuget push $file.FullName --api-key "${{ secrets.NUGET_ORG_FHI_PUBLISH }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           }
