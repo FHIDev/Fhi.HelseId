@@ -1,29 +1,27 @@
 <Project>
     <PropertyGroup>
       <VersionPrefix>8.0.1</VersionPrefix>
+      <ImplicitUsings>enable</ImplicitUsings>
       <Nullable>enable</Nullable>
-      <authors>Folkehelseinstituttet (FHI), Norsk Helsenett (NHN)</authors>
-      <Copyright>(c) 2020-2024 Folkehelseinstituttet (FHI), Norsk Helsenett (NHN)</Copyright>
-      <projectUrl>https://github.com/folkehelseinstituttet/Fhi.HelseId</projectUrl>
-      <PackageLicenseExpression>MIT</PackageLicenseExpression>
-      <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-      <PackageCopyright>Copyright ©2020-2024 Folkehelseinstituttet, Norsk Helsenett NHN</PackageCopyright>
-      <!-- Tags appear in the gallery and can be used for tag searches -->
-      <Tags>helseid, oauth</Tags>
-      <RepositoryUrl>https://github.com/folkehelseinstituttet/Fhi.HelseId</RepositoryUrl>
-      <UseArtifactsOutput>true</UseArtifactsOutput>
-      <GenerateDocumentationFile>True</GenerateDocumentationFile>
-      <PackageReadmeFile>README.md</PackageReadmeFile>
-      <PackageIcon>fhi.png</PackageIcon>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
       <!-- Vulnerability severity level: NU1991 Low, NU1902 Moderate, NU1903 High, NU1904 Critical -->
-      <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>      
+      <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
+
+      <RepositoryUrl>https://github.com/FHIDev/Fhi.HelseId</RepositoryUrl>
+      <Authors>Folkehelseinstituttet (FHI)</Authors>
+      <Copyright>Copyright 2022-2025 Folkehelseinstituttet (FHI)</Copyright>
+      <PackageCopyright>Copyright 2022-2025 Folkehelseinstituttet (FHI)</PackageCopyright>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <PackageIcon>fhi.png</PackageIcon>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
       <IncludeSymbols>true</IncludeSymbols>
       <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <Tags>helseid, oauth</Tags>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>   
     </PropertyGroup>
     <ItemGroup>
-      <None Include="..\images\fhi.png" Pack="true" PackagePath="\" />
+      <None Include="../images/fhi.png" Pack="true" PackagePath="/" />
     </ItemGroup>
   </Project>
   

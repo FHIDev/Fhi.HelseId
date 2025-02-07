@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
@@ -29,10 +28,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Fhi.HelseId.Api\Fhi.HelseId.Api.csproj" />
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="appsettings.test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
