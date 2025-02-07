@@ -34,7 +34,7 @@ namespace Fhi.HelseId.Web.ExtensionMethods
         public static OpenIdConnectOptions DefaultHelseIdOptions(this OpenIdConnectOptions options,
             IHelseIdWebKonfigurasjon configAuth,
             IRedirectPagesKonfigurasjon redirectPagesKonfigurasjon,
-            IHelseIdSecretHandler secretHandler)
+            IHelseIdClientSecretHandler secretHandler)
         {
             var acrValues = GetAcrValues(configAuth); // spesielt for id-porten, e.g. krever sikkerhetsnivå 4
             var hasAcrValues = !string.IsNullOrWhiteSpace(acrValues);

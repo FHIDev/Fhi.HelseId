@@ -15,7 +15,7 @@ internal class JwtThumbprintAttacherTests
 {
     private JwtThumbprintAttacher? _thumbprintAttacher;
     private RedirectContext? _redirectContext;
-    private IHelseIdSecretHandler? _secretHandler;
+    private IHelseIdClientSecretHandler? _secretHandler;
 
     private byte[]? _expectedThumbprint;
 
@@ -27,7 +27,7 @@ internal class JwtThumbprintAttacherTests
         _expectedThumbprint = proofKey.ComputeJwkThumbprint();
 
         var authScheme = new AuthenticationScheme("test", "test", typeof(IAuthenticationHandler));
-        _secretHandler = Substitute.For<IHelseIdSecretHandler>();
+        _secretHandler = Substitute.For<IHelseIdClientSecretHandler>();
         _secretHandler.GetSecurityKey().Returns(proofKey);
         _thumbprintAttacher = new JwtThumbprintAttacher(_secretHandler);
         _redirectContext = new RedirectContext(

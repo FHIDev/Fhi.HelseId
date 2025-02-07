@@ -13,7 +13,7 @@ internal class DPoPTokenCreatorTests
 {
     private INonceStore? _nonceStore;
     private DPoPTokenCreator? _dPoPTokenCreator;
-    private IHelseIdSecretHandler? _secretHandler;
+    private IHelseIdClientSecretHandler? _secretHandler;
 
     [SetUp]
     public void SetUp()
@@ -22,7 +22,7 @@ internal class DPoPTokenCreatorTests
         var jsonWebKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(rsaKey);
 
         _nonceStore = Substitute.For<INonceStore>();
-        _secretHandler = Substitute.For<IHelseIdSecretHandler>();
+        _secretHandler = Substitute.For<IHelseIdClientSecretHandler>();
         _secretHandler.GetSecurityKey().Returns(jsonWebKey);
 
         _dPoPTokenCreator = new DPoPTokenCreator(_nonceStore, _secretHandler);

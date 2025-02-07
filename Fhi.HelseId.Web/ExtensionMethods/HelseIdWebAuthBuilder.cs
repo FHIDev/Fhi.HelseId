@@ -31,7 +31,7 @@ public class HelseIdWebAuthBuilder
     private readonly IConfigurationSection _helseIdWebKonfigurasjonSection;
     public IHelseIdWebKonfigurasjon HelseIdWebKonfigurasjon { get; }
     public RedirectPagesKonfigurasjon RedirectPagesKonfigurasjon { get; }
-    public IHelseIdSecretHandler SecretHandler { get; set; }
+    public IHelseIdClientSecretHandler SecretHandler { get; set; }
 
     /// <summary>
     /// Checks the HelseIdWebKonfigurasjon.AuthUse property

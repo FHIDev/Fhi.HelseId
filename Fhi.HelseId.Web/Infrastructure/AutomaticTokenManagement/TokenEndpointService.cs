@@ -35,7 +35,7 @@ public class TokenEndpointService : ITokenEndpointService
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly HttpClient _httpClient;
     private readonly ILogger<TokenEndpointService> _logger;
-    private readonly IHelseIdSecretHandler? _secretHandler;
+    private readonly IHelseIdClientSecretHandler? _secretHandler;
 
     public TokenEndpointService(
         IOptions<AutomaticTokenManagementOptions> managementOptions,
@@ -44,7 +44,7 @@ public class TokenEndpointService : ITokenEndpointService
         HttpClient httpClient,
         IHttpContextAccessor httpContextAccessor,
         ILogger<TokenEndpointService> logger,
-        IHelseIdSecretHandler secretHandler)
+        IHelseIdClientSecretHandler secretHandler)
     {
         _secretHandler = secretHandler;
         _managementOptions = managementOptions.Value;
