@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fhi.HelseId.Common.ExtensionMethods;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +23,6 @@ namespace Fhi.HelseId.Web.Middleware
 
         public ProtectPaths(RequestDelegate next, ProtectPathsOptions options, ILogger<ProtectPaths> logger)
         {
-            logger.LogMember();
             _next = next;
             _logger = logger;
             _policyName = options.Policy;
@@ -60,7 +58,7 @@ namespace Fhi.HelseId.Web.Middleware
                 {
                     var redirectUri = httpContext.Request.GetEncodedPathAndQuery();
                     await httpContext.ChallengeAsync(new AuthenticationProperties { RedirectUri = redirectUri });
-                    _logger.LogTrace("ProtectedPaths:User is not authenticated, ChallengeAsync called");
+                    _logger.LogTrace("ProtectedPaths: User is not authenticated, ChallengeAsync called.");
                     return;
                 }
 

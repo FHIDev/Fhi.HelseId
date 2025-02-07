@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Exceptions;
-using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Web;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -38,7 +37,6 @@ public class AuthHeaderHandler : DelegatingHandler
         IAuthorizationHeaderSetter authorizationHeaderSetter)
     {
         config = options.Value;
-        logger.LogMember();
         _contextAccessor = contextAccessor;
         _logger = logger;
         _user = user;
@@ -49,8 +47,7 @@ public class AuthHeaderHandler : DelegatingHandler
     {
         if (request.Options.Any(x => x.Key == AnonymousOptionKey))
         {
-            _logger.LogTrace("{class}.{method} - Skipping Access token because of anonymous HttpRequestMessage options",
-                nameof(AuthHeaderHandler), nameof(SendAsync));
+            _logger.LogTrace("Skipping Access token because of anonymous HttpRequestMessage options.");
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
@@ -58,21 +55,17 @@ public class AuthHeaderHandler : DelegatingHandler
         var endpoint = ctx.GetEndpoint();
         var allowAnonymous = endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>();
 
-        _logger.LogTrace("{class}.{method} - Starting", nameof(AuthHeaderHandler), nameof(SendAsync));
+        _logger.LogTrace("Starting.");
         var token = await ctx.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
         if (token == null && allowAnonymous == null)
         {
-            _logger.LogError(
-                "{class}.{method} No access token found in context. Make sure you have added the" +
-                " AddTokenManagement() to your Startup.cs",
-                nameof(AuthHeaderHandler),
-                nameof(SendAsync));
+            _logger.LogError("No access token found in context. Make sure you have added the" +
+                " AddTokenManagement() to your Startup.cs.");
         }
         else if (token != null)
         {
-            _logger.LogTrace("{class}.{method} - Found access token in context (hash:{hash})",
-                nameof(AuthHeaderHandler), nameof(SendAsync), token.GetHashCode());
+            _logger.LogTrace("Found access token in context (hash: {hash}).", token.GetHashCode());
         }
 
         if (!string.IsNullOrEmpty(token))
@@ -83,8 +76,7 @@ public class AuthHeaderHandler : DelegatingHandler
         var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            _logger.LogError("{class}.{method} Request to {url} failed with status code {statusCode}",
-                nameof(AuthHeaderHandler), nameof(SendAsync), request.RequestUri, response.StatusCode);
+            _logger.LogError("Request to {url} failed with status code {statusCode}.", request.RequestUri, response.StatusCode);
         }
 
         return response;
