@@ -16,7 +16,7 @@ public class FhiHeaderDelegationHandlerTests
         handler.InnerHandler = new DummyInnerHandler();
 
         var client = new HttpClient(handler);
-        client.DefaultRequestHeaders.TryAddWithoutValidation(headerName, "'Fornavn' Ætternavn");
+        client.DefaultRequestHeaders.TryAddWithoutValidation(headerName, "'Fornavn' Ã†tternavn");
 
         var response = await client.GetAsync("http://localhost/");
 
