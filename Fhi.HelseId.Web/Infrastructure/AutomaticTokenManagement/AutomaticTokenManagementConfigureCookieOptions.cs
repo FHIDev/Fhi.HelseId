@@ -1,5 +1,4 @@
 ﻿using System;
-using Fhi.HelseId.Common.ExtensionMethods;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
@@ -13,7 +12,6 @@ namespace Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement
 
         public AutomaticTokenManagementConfigureCookieOptions(IAuthenticationSchemeProvider provider, ILogger<AutomaticTokenManagementConfigureCookieOptions> logger)
         {
-            logger.LogMember();
             var scheme = provider.GetDefaultSignInSchemeAsync().GetAwaiter().GetResult();
             if (scheme == null)
             {

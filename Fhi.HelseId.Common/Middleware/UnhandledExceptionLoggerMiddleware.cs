@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Fhi.HelseId.Common.ExtensionMethods;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -10,12 +9,11 @@ namespace Fhi.HelseId.Common.Middleware
     public class UnhandledExceptionLoggerMiddleware
     {
         private readonly RequestDelegate next;
-        private ILogger Logger { get; }
+        private readonly ILogger<UnhandledExceptionLoggerMiddleware> _logger;
 
         public UnhandledExceptionLoggerMiddleware(RequestDelegate next, ILogger<UnhandledExceptionLoggerMiddleware> logger)
         {
-            logger.LogMember();
-            Logger = logger;
+            _logger = logger;
             this.next = next;
         }
 
@@ -27,8 +25,9 @@ namespace Fhi.HelseId.Common.Middleware
             }
             catch (Exception ex)
             {
-                // SerilogUserInfoEnricher.EnrichWithUserInfo(context);
-                Logger.LogError(ex, "Unhandled exception");
+                _logger.LogError(ex, "Unhandled exception. Context: {RequestPath}, Method: {RequestMethod}.",
+                    context.Request.Path,
+                    context.Request.Method);
                 throw;
             }
         }
