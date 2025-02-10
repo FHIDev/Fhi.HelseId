@@ -18,4 +18,9 @@
   <ItemGroup>
     <Folder Include="UnitTests\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="UnitTests\appsettings.test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
