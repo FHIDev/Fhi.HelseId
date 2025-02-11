@@ -9,7 +9,7 @@ namespace Fhi.HelseId.Web.UnitTests
         [SetUp]
         public void Init()
         {
-            Config = GetIConfigurationRoot(TestContext.CurrentContext.TestDirectory + "\\UnitTests", "appsettings.test.json");
+            Config = GetIConfigurationRoot(TestContext.CurrentContext.TestDirectory + "/UnitTests", "appsettings.test.json");
         }
 
         [Test]
