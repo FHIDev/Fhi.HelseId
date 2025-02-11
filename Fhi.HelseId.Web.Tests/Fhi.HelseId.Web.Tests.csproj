@@ -16,6 +16,11 @@
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UnitTests\" />
+    <Folder Include="UnitTests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="UnitTests/appsettings.test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
