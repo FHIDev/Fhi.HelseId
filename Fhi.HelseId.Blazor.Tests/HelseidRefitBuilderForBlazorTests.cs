@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -81,7 +81,7 @@ public partial class HelseidRefitBuilderForBlazorTests
 
         // the dummy client mirrors all "fhi-" headers. Let's check that we did not add the encoding-handler
         Assert.That(response.Headers.Single(x => x.Key == ITestClient.TestHeaderName).Value.Single(),
-            Is.EqualTo("test æ"));
+            Is.EqualTo("test Ã¦"));
     }
 
     public ITestClient CreateTestClient(HelseidRefitBuilderForBlazorOptions options, out ServiceProvider provider)
@@ -155,7 +155,7 @@ public partial class HelseidRefitBuilderForBlazorTests
         public const string TestHeaderName = "fhi-encoded";
 
         [Get("/info")]
-        [Headers($"{TestHeaderName}: test æ")]
+        [Headers($"{TestHeaderName}: test Ã¦")]
         Task<ApiResponse<string>> Info();
     }
 }

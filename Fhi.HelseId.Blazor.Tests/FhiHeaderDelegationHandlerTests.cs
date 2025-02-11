@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -16,7 +16,7 @@ public class FhiHeaderDelegationHandlerTests
         handler.InnerHandler = new DummyInnerHandler();
 
         var client = new HttpClient(handler);
-        client.DefaultRequestHeaders.TryAddWithoutValidation(headerName, "'Fornavn' �tternavn");
+        client.DefaultRequestHeaders.TryAddWithoutValidation(headerName, "'Fornavn' Ætternavn");
 
         var response = await client.GetAsync("http://localhost/");
 
