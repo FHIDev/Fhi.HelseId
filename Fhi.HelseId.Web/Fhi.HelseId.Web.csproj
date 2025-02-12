@@ -27,5 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="../Fhi.HelseId.Web/README.md" Pack="true" PackagePath="/" />
+    <None Include="../Fhi.HelseId.Web/CONTRIBUTORS.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

@@ -23,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="../Fhi.HelseId.Api/README.md" Pack="true" PackagePath="/" />
+    <None Include="../Fhi.HelseId.Api/CONTRIBUTORS.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
