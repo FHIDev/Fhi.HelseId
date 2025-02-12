@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release</Configurations>
+    <IsPackable>true</IsPackable>
+    <PackageProjectUrl>https://www.nuget.org/packages/Fhi.HelseId.Common</PackageProjectUrl>
     <PackageDescription>Common infrastructure for Fhi.HelseId</PackageDescription>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -18,6 +18,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Fhi.HelseId.Common\README.md" Pack="true" PackagePath="\" />
+    <None Include="../Fhi.HelseId.Common/README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

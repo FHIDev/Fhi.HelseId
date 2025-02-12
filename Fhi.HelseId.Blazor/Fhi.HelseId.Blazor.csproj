@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <PackageProjectUrl>https://www.nuget.org/packages/Fhi.HelseId.Blazor</PackageProjectUrl>
     <PackageDescription>Setup Blazor with helseid Apis</PackageDescription>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -22,6 +23,6 @@
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Fhi.HelseId.Blazor\README.md" Pack="true" PackagePath="\" />
+    <None Include="../Fhi.HelseId.Blazor/README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release</Configurations>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
