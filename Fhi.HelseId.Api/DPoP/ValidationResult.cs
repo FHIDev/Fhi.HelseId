@@ -1,4 +1,4 @@
-namespace Fhi.HelseId.Api.DPoP;
+﻿namespace Fhi.HelseId.Api.DPoP;
 
 public class ValidationResult
 {
