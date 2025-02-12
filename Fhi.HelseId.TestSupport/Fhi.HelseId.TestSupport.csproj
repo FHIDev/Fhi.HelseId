@@ -2,7 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsTestProject>false</IsTestProject>
-    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+    <PackageProjectUrl>https://www.nuget.org/packages/Fhi.ClientCredentials.TestSupport</PackageProjectUrl>
     <PackageDescription>Base classes for testing an implementation using Fhi.HelseId</PackageDescription>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -29,6 +30,6 @@
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Fhi.HelseId.TestSupport\README.md" Pack="true" PackagePath="\" />
+    <None Include="../Fhi.HelseId.TestSupport/README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
