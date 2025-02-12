@@ -8,6 +8,9 @@ dotnet_diagnostic.CS1591.severity = none
 dotnet_sort_system_directives_first = true
 end_of_line = crlf
 
+[*.razor]
+dotnet_diagnostic.CS1591.severity = none
+
 [*.{csproj,props,xml,yml}]
 indent_style = space
 indent_size = 2
