@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release</Configurations>
+    <IsPackable>true</IsPackable>
+    <PackageProjectUrl>https://www.nuget.org/packages/Fhi.HelseId.Web</PackageProjectUrl>
     <PackageDescription>Authentication and authorization component for access to NHN HelseId in user-facing web applications</PackageDescription>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>  
@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Fhi.HelseId.Common\Fhi.HelseId.Common.csproj" />    
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Fhi.HelseId.Web\README.md" Pack="true" PackagePath="\" />
+    <None Include="../Fhi.HelseId.Web/README.md" Pack="true" PackagePath="/" />
+    <None Include="../Fhi.HelseId.Web/CONTRIBUTORS.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
