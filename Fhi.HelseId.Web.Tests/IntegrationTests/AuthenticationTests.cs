@@ -5,6 +5,8 @@ using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.HelseId.Web.IntegrationTests.Setup;
+using Fhi.HelseId.Web.OIDC;
+using Fhi.HelseId.Web.Services;
 using Fhi.TestFramework;
 using Fhi.TestFramework.Extensions;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -14,8 +16,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols;
 using NUnit.Framework;
+using Fhi.HelseId.Common.ExtensionMethods;
+using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
+using System.Text;
 
 namespace Fhi.HelseId.Web.IntegrationTests
 {
@@ -119,13 +127,26 @@ namespace Fhi.HelseId.Web.IntegrationTests
             var builder = WebApplicationBuilderTestHost.CreateWebHostBuilder()
              .WithServices(services =>
              {
-                 // Sample of using HelseId library
+                 services.AddSingleton<FakeOIDCEvents>();
                  services.AddHelseIdWebAuthentication(config)
                  .UseJwkKeySecretHandler()
-                 .Build();
+                 .Build(mvcOptions =>
+                 {
+                 }, new ConfigureAuthentication()
+                 {
+                     ConfigureOpenIdConnect = (options) =>
+                     {
+                         options.EventsType = typeof(FakeOIDCEvents);
+                         string metadata = "{\"issuer\":\"https://helseid-sts.test.nhn.no\",\"jwks_uri\":\"https://helseid-sts.test.nhn.no/.well-known/openid-configuration/jwks\",\"authorization_endpoint\":\"https://helseid-sts.test.nhn.no/connect/authorize\",\"token_endpoint\":\"https://helseid-sts.test.nhn.no/connect/token\",\"userinfo_endpoint\":\"https://helseid-sts.test.nhn.no/connect/userinfo\",\"end_session_endpoint\":\"https://helseid-sts.test.nhn.no/connect/endsession\",\"check_session_iframe\":\"https://helseid-sts.test.nhn.no/connect/checksession\",\"revocation_endpoint\":\"https://helseid-sts.test.nhn.no/connect/revocation\",\"introspection_endpoint\":\"https://helseid-sts.test.nhn.no/connect/introspect\",\"device_authorization_endpoint\":\"https://helseid-sts.test.nhn.no/connect/deviceauthorization\",\"backchannel_authentication_endpoint\":\"https://helseid-sts.test.nhn.no/connect/ciba\",\"pushed_authorization_request_endpoint\":\"https://helseid-sts.test.nhn.no/connect/par\",\"require_pushed_authorization_requests\":false,\"frontchannel_logout_supported\":\"true\",\"frontchannel_logout_session_supported\":\"true\",\"backchannel_logout_supported\":\"true\",\"backchannel_logout_session_supported\":\"true\",\"claims_supported\":[\"name\",\"family_name\",\"given_name\",\"middle_name\",\"helseid://claims/identity/assurance_level\",\"helseid://claims/identity/pid\",\"helseid://claims/identity/pid_pseudonym\",\"helseid://claims/identity/security_level\",\"helseid://claims/identity/network\",\"helseid://claims/hpr/hpr_number\",\"helseid://claims/client/client_name\",\"helseid://claims/client/client_tenancy\",\"helseid://claims/client/claims/orgnr_parent\",\"helseid://claims/client/claims/orgnr_child\",\"helseid://claims/client/claims/orgnr_supplier\",\"client_amr\"],\"scopes_supported\":[\"openid\",\"profile\",\"offline_access\",\"helseid://scopes/client/info\",\"helseid://scopes/client/client_name\",\"helseid://scopes/identity/assurance_level\",\"helseid://scopes/identity/pid\",\"helseid://scopes/identity/pid_pseudonym\",\"helseid://scopes/identity/security_level\",\"helseid://scopes/identity/network\",\"nhn:tillitsrammeverk:parameters\",\"nhn:sfm:journal-id\",\"helseid://scopes/hpr/hpr_number\"],\"grant_types_supported\":[\"authorization_code\",\"client_credentials\",\"refresh_token\",\"implicit\",\"urn:ietf:params:oauth:grant-type:device_code\",\"urn:openid:params:grant-type:ciba\",\"urn:ietf:params:oauth:grant-type:token-exchange\"],\"response_types_supported\":[\"code\",\"token\",\"id_token\",\"id_token token\",\"code id_token\",\"code token\",\"code id_token token\"],\"response_modes_supported\":[\"form_post\",\"query\",\"fragment\"],\"token_endpoint_auth_methods_supported\":[\"client_secret_basic\",\"client_secret_post\",\"private_key_jwt\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"subject_types_supported\":[\"public\"],\"code_challenge_methods_supported\":[\"plain\",\"S256\"],\"request_parameter_supported\":true,\"request_object_signing_alg_values_supported\":[\"RS256\",\"RS384\",\"RS512\",\"PS256\",\"PS384\",\"PS512\",\"ES256\",\"ES384\",\"ES512\",\"HS256\",\"HS384\",\"HS512\"],\"prompt_values_supported\":[\"none\",\"login\",\"consent\",\"select_account\"],\"authorization_response_iss_parameter_supported\":true,\"backchannel_token_delivery_modes_supported\":[\"poll\"],\"backchannel_user_code_parameter_supported\":true,\"dpop_signing_alg_values_supported\":[\"RS256\",\"RS384\",\"RS512\",\"PS256\",\"PS384\",\"PS512\",\"ES256\",\"ES384\",\"ES512\"],\"expired_jwks_uri\":\"https://helseid-sts.test.nhn.no/connect/expiredjwks\",\"available_idps\":\"https://helseid-sts.test.nhn.no/connect/availableidps\"}";
+                         OpenIdConnectConfiguration? config = metadata.Deserialize<OpenIdConnectConfiguration>();
+                         options.ConfigurationManager = new FakeStaticConfigurationManager(config ?? new OpenIdConnectConfiguration());
+                         options.Backchannel = new HttpClient(new FakeOpenIdConnectHandler())
+                         {
+                             BaseAddress = new Uri("https://fake-identity-provider")
+                         };
 
-                 //Create a new IConfigureNamedOptions to override OIDC authentication scheme options
-                 services.AddSingleton<IConfigureOptions<OpenIdConnectOptions>, ConfigureOidcOptions>();
+                     }
+                 });
              });
 
             var app = builder.BuildApp(app =>
@@ -133,7 +154,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
                 app.UseRouting();
                 app.UseAuthentication();
                 app.UseAuthorization();
-                app.MapGet("/api/test-endpoint", [Authorize] async (context) =>
+                app.MapGet("/test-endpoint", [Authorize] async (context) =>
                 {
                     var name = context.User.Name();
                     await context.Response.WriteAsync($"{name}");
@@ -142,17 +163,19 @@ namespace Fhi.HelseId.Web.IntegrationTests
             app.Start();
 
             var client = app.GetTestClient();
-            var response = await client.GetAsync("/api/test-endpoint");
+            var response = await client.GetAsync("/test-endpoint");
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
 
             var queryParams = HttpUtility.ParseQueryString(response.Headers.Location!.Query);
             var cookie = response.Headers.FirstOrDefault(x => x.Key == "Set-Cookie").Value;
-            Dictionary<string, string?> callbackRequest = new Dictionary<string, string?>();
-            callbackRequest["code"] = "D4551ADD9D230EF3FB4052AEFA6A9A81206BF71CB6EE417CC744D6A252B0EF63-1";
-            callbackRequest["scope"] = "openid profile helseid://scopes/identity/pid helseid://scopes/identity/pid_pseudonym helseid://scopes/identity/security_level offline_access";
-            callbackRequest["state"] = queryParams["state"];
-            callbackRequest["iss"] = "https://helseid-sts.test.nhn.no";
+            Dictionary<string, string?> callbackRequest = new Dictionary<string, string?>
+            {
+                ["code"] = "D4551ADD9D230EF3FB4052AEFA6A9A81206BF71CB6EE417CC744D6A252B0EF63-1",
+                ["scope"] = "openid profile helseid://scopes/identity/pid helseid://scopes/identity/pid_pseudonym helseid://scopes/identity/security_level offline_access",
+                ["state"] = queryParams["state"],
+                ["iss"] = "https://helseid-sts.test.nhn.no"
+            };
 
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri("https://localhost/signin-callback "));
             request.Headers.Add("Cookie", cookie);
@@ -210,31 +233,99 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
     }
 
-    internal class ConfigureOidcOptions : IConfigureNamedOptions<OpenIdConnectOptions>
+    internal class FakeOIDCEvents : OidcEvents
     {
-        public void Configure(string? name, OpenIdConnectOptions options)
+        public FakeOIDCEvents(IHelseIdClientSecretHandler secretHandler, IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon) : base(secretHandler, helseIdWebKonfigurasjon)
         {
-            Configure(options);
         }
 
-        /// <summary>
-        /// sample on overridden configuration. 
-        /// Overriding evenst for illustration
-        /// </summary>
-        /// <param name="options"></param>
-        public void Configure(OpenIdConnectOptions options)
+        public override Task RedirectToIdentityProviderForSignOut(RedirectContext context)
         {
-            //options.CallbackPath = "https://customized_redirect_uri/";
-            options.Events.OnRedirectToIdentityProvider = ctx =>
+            return base.RedirectToIdentityProviderForSignOut(context);
+        }
+
+        public override Task AuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
+        {
+            var endpoint = context.TokenEndpointRequest?.RequestUri;
+            return base.AuthorizationCodeReceived(context);
+        }
+
+        public override Task AuthenticationFailed(AuthenticationFailedContext context)
+        {
+            return base.AuthenticationFailed(context);
+        }
+
+        public override Task RemoteFailure(RemoteFailureContext context)
+        {
+            return base.RemoteFailure(context);
+        }
+    }
+
+    internal class FakeStaticConfigurationManager : StaticConfigurationManager<OpenIdConnectConfiguration>
+    {
+        
+        public FakeStaticConfigurationManager(OpenIdConnectConfiguration configuration) : base(configuration)
+        {
+        }
+
+        public override Task<BaseConfiguration> GetBaseConfigurationAsync(CancellationToken cancel)
+        {
+            return base.GetBaseConfigurationAsync(cancel);
+        }
+
+        public override void RequestRefresh()
+        {
+            base.RequestRefresh();
+        }
+    }
+
+    public class FakeOpenIdConnectHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            // Simulating a token response
+            var fakeResponse = new
             {
-                return Task.CompletedTask;
+                access_token = "fake-access-token",
+                token_type = "Bearer",
+                expires_in = 3600
             };
 
-            //options.Events.OnAuthorizationCodeReceived = ctx =>
-            //{
-            //    return Task.CompletedTask;
-            //};
+            var json = System.Text.Json.JsonSerializer.Serialize(fakeResponse);
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+
+            return Task.FromResult(response);
         }
+    }
+
+    public class CustomOpenIdConnectConfiguration : OpenIdConnectConfiguration
+    {
+        [JsonPropertyName("claims_supported")] 
+        public new List<string>? ClaimsSupported { get; set; }
+
+        [JsonPropertyName("scopes_supported")]
+        public new List<string>? ScopesSupported { get; set; }
+
+        [JsonPropertyName("grant_types_supported")]
+        public new List<string>? GrantTypesSupported { get; set; }
+
+        [JsonPropertyName("response_types_supported")]
+        public new List<string>? ResponseTypesSupported { get; set; }
+
+        [JsonPropertyName("response_modes_supported")]
+        public new List<string>? ResponseModesSupported { get; set; }
+
+        [JsonPropertyName("token_endpoint_auth_methods_supported")]
+        public new List<string>? TokenEndpointAuthMethodsSupported { get; set; }
+
+        [JsonPropertyName("id_token_signing_alg_values_supported")]
+        public new List<string>? IdTokenSigningAlgValuesSupported { get; set; }
+
+        [JsonPropertyName("code_challenge_methods_supported")]
+        public new List<string>? CodeChallengeMethodsSupported { get; set; }
     }
 }
 

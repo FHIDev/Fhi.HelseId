@@ -83,7 +83,7 @@ internal class DPoPTokenCreatorTests
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);
         Assert.That(jwtToken.Claims.Any(c => c.Type == JwtRegisteredClaimNames.Jti), Is.True);
-        Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpMethod && c.Value == method.ToString().ToUpperInvariant()), Is.True);
+        Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpMethod && c.Value.Equals(method.ToString(), StringComparison.InvariantCultureIgnoreCase)), Is.True);
         Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpUrl && c.Value == url), Is.True);
         Assert.That(jwtToken.Claims.Any(c => c.Type == JwtRegisteredClaimNames.Iat && c.Value == iat), Is.True);
     }

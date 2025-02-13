@@ -2,16 +2,11 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Common.Exceptions;
-using Fhi.HelseId.Common.Identity;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Fhi.HelseId.Web.Services

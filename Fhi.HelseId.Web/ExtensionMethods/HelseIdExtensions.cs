@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Identity;
-using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;
+using Fhi.HelseId.Web.OIDC;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Fhi.HelseId.Web.ExtensionMethods
 {
@@ -36,8 +33,6 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             IRedirectPagesKonfigurasjon redirectPagesKonfigurasjon,
             IHelseIdClientSecretHandler secretHandler)
         {
-            var acrValues = GetAcrValues(configAuth); // spesielt for id-porten, e.g. krever sikkerhetsnivå 4
-            var hasAcrValues = !string.IsNullOrWhiteSpace(acrValues);
             options.Authority = configAuth.Authority;
             options.RequireHttpsMetadata = true;
             options.ClientId = configAuth.ClientId;
@@ -50,7 +45,7 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             options.CallbackPath = "/signin-callback";
             options.SignedOutCallbackPath = "/signout-callback";
             options.Scope.Clear();
-
+            options.EventsType = typeof(OidcEvents);
             //// options.CorrelationCookie.SameSite = SameSiteMode.Lax;
             //// options.NonceCookie.SameSite = SameSiteMode.Lax;
 
@@ -67,52 +62,10 @@ namespace Fhi.HelseId.Web.ExtensionMethods
 
             options.SaveTokens = true;
 
-            options.Events.OnRedirectToIdentityProvider = ctx =>
-            {
-                // API requests should get a 401 status instead of being redirected to login
-                if (ctx.Request.Path.StartsWithSegments("/api"))
-                {
-                    ctx.Response.Headers["Location"] = ctx.ProtocolMessage.CreateAuthenticationRequestUrl();
-                    ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    ctx.HandleResponse();
-                }
-
-                if (ctx.ProtocolMessage.RequestType == OpenIdConnectRequestType.Authentication && hasAcrValues)
-                {
-                    ctx.ProtocolMessage.AcrValues = acrValues;
-                }
-
-                if (configAuth.RewriteRedirectUriHttps)
-                {
-                    // Rewrite Redirect Uri to use https in case e.g. running from container
-                    var builder = new UriBuilder(ctx.ProtocolMessage.RedirectUri)
-                    {
-                        Scheme = "https",
-                        Port = -1
-                    };
-                    ctx.ProtocolMessage.RedirectUri = builder.ToString();
-                }
-
-                if (configAuth.UseDPoPTokens)
-                {
-                    var proofGenerator = ctx.HttpContext.RequestServices.GetRequiredService<IProofRedirector>();
-                    proofGenerator.AttachThumbprint(ctx);
-                }
-
-                return Task.CompletedTask;
-            };
-
             options.AccessDeniedPath = redirectPagesKonfigurasjon.Forbidden;
             if (configAuth.UseDPoPTokens)
             {
                 options.ForwardDPoPContext();
-            }
-
-            secretHandler.AddSecretConfiguration(options);
-
-            string GetAcrValues(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
-            {
-                return string.Join(' ', helseIdWebKonfigurasjon.SecurityLevels.Select(sl => $"Level{sl}"));
             }
 
             return options;

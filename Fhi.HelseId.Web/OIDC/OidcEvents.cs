@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Identity;
+using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Services;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Fhi.HelseId.Web.OIDC
 {
-    internal class OidcEvents : OpenIdConnectEvents
+    public class OidcEvents : OpenIdConnectEvents
     {
         private readonly IHelseIdClientSecretHandler _secretHandler;
         private readonly IHelseIdWebKonfigurasjon _helseIdWebKonfigurasjon;
@@ -48,6 +52,48 @@ namespace Fhi.HelseId.Web.OIDC
             }
         }
 #endif
+
+        public override Task RedirectToIdentityProvider(RedirectContext context)
+        {
+            if (context.Request.Path.StartsWithSegments("/api"))
+            {
+                context.Response.Headers["Location"] = context.ProtocolMessage.CreateAuthenticationRequestUrl();
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.HandleResponse();
+            }
+
+            var acrValues = GetAcrValues(_helseIdWebKonfigurasjon);
+
+            if (context.ProtocolMessage.RequestType == OpenIdConnectRequestType.Authentication && !string.IsNullOrWhiteSpace(acrValues))
+            {
+                context.ProtocolMessage.AcrValues = acrValues;
+            }
+
+            if (_helseIdWebKonfigurasjon.RewriteRedirectUriHttps)
+            {
+                // Rewrite Redirect Uri to use https in case e.g. running from container
+                var builder = new UriBuilder(context.ProtocolMessage.RedirectUri)
+                {
+                    Scheme = "https",
+                    Port = -1
+                };
+                context.ProtocolMessage.RedirectUri = builder.ToString();
+            }
+
+            if (_helseIdWebKonfigurasjon.UseDPoPTokens)
+            {
+                var proofGenerator = context.HttpContext.RequestServices.GetRequiredService<IProofRedirector>();
+                proofGenerator.AttachThumbprint(context);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private string GetAcrValues(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
+        {
+            return string.Join(' ', helseIdWebKonfigurasjon.SecurityLevels.Select(sl => $"Level{sl}"));
+        }
+
         private async Task<string> GenerateClientAssertion(IConfigurationManager<OpenIdConnectConfiguration> configurationManager)
         {
             var configuration = await configurationManager.GetConfigurationAsync(default);
