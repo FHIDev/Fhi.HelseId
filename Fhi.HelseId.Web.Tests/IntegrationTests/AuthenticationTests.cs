@@ -1,6 +1,8 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
+using System.Text;
 using System.Web;
+using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
@@ -9,6 +11,7 @@ using Fhi.HelseId.Web.OIDC;
 using Fhi.HelseId.Web.Services;
 using Fhi.TestFramework;
 using Fhi.TestFramework.Extensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -16,14 +19,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using NUnit.Framework;
-using Fhi.HelseId.Common.ExtensionMethods;
-using System.Text.Json.Serialization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
-using System.Text;
 
 namespace Fhi.HelseId.Web.IntegrationTests
 {
@@ -114,7 +112,8 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
 
         [Test]
-        public async Task UseJwkKeySecretHandler()
+        //[Ignore("Used for simpler debugging without having an app to simulate OIDC auth code flow")]
+        public async Task SimulateOIDCFlow()
         {
             var appsettingsConfig = new Dictionary<string, string?>
             {
@@ -137,9 +136,11 @@ namespace Fhi.HelseId.Web.IntegrationTests
                      ConfigureOpenIdConnect = (options) =>
                      {
                          options.EventsType = typeof(FakeOIDCEvents);
+                         //Fake discovery endpoint (well-known)
                          string metadata = "{\"issuer\":\"https://helseid-sts.test.nhn.no\",\"jwks_uri\":\"https://helseid-sts.test.nhn.no/.well-known/openid-configuration/jwks\",\"authorization_endpoint\":\"https://helseid-sts.test.nhn.no/connect/authorize\",\"token_endpoint\":\"https://helseid-sts.test.nhn.no/connect/token\",\"userinfo_endpoint\":\"https://helseid-sts.test.nhn.no/connect/userinfo\",\"end_session_endpoint\":\"https://helseid-sts.test.nhn.no/connect/endsession\",\"check_session_iframe\":\"https://helseid-sts.test.nhn.no/connect/checksession\",\"revocation_endpoint\":\"https://helseid-sts.test.nhn.no/connect/revocation\",\"introspection_endpoint\":\"https://helseid-sts.test.nhn.no/connect/introspect\",\"device_authorization_endpoint\":\"https://helseid-sts.test.nhn.no/connect/deviceauthorization\",\"backchannel_authentication_endpoint\":\"https://helseid-sts.test.nhn.no/connect/ciba\",\"pushed_authorization_request_endpoint\":\"https://helseid-sts.test.nhn.no/connect/par\",\"require_pushed_authorization_requests\":false,\"frontchannel_logout_supported\":\"true\",\"frontchannel_logout_session_supported\":\"true\",\"backchannel_logout_supported\":\"true\",\"backchannel_logout_session_supported\":\"true\",\"claims_supported\":[\"name\",\"family_name\",\"given_name\",\"middle_name\",\"helseid://claims/identity/assurance_level\",\"helseid://claims/identity/pid\",\"helseid://claims/identity/pid_pseudonym\",\"helseid://claims/identity/security_level\",\"helseid://claims/identity/network\",\"helseid://claims/hpr/hpr_number\",\"helseid://claims/client/client_name\",\"helseid://claims/client/client_tenancy\",\"helseid://claims/client/claims/orgnr_parent\",\"helseid://claims/client/claims/orgnr_child\",\"helseid://claims/client/claims/orgnr_supplier\",\"client_amr\"],\"scopes_supported\":[\"openid\",\"profile\",\"offline_access\",\"helseid://scopes/client/info\",\"helseid://scopes/client/client_name\",\"helseid://scopes/identity/assurance_level\",\"helseid://scopes/identity/pid\",\"helseid://scopes/identity/pid_pseudonym\",\"helseid://scopes/identity/security_level\",\"helseid://scopes/identity/network\",\"nhn:tillitsrammeverk:parameters\",\"nhn:sfm:journal-id\",\"helseid://scopes/hpr/hpr_number\"],\"grant_types_supported\":[\"authorization_code\",\"client_credentials\",\"refresh_token\",\"implicit\",\"urn:ietf:params:oauth:grant-type:device_code\",\"urn:openid:params:grant-type:ciba\",\"urn:ietf:params:oauth:grant-type:token-exchange\"],\"response_types_supported\":[\"code\",\"token\",\"id_token\",\"id_token token\",\"code id_token\",\"code token\",\"code id_token token\"],\"response_modes_supported\":[\"form_post\",\"query\",\"fragment\"],\"token_endpoint_auth_methods_supported\":[\"client_secret_basic\",\"client_secret_post\",\"private_key_jwt\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"subject_types_supported\":[\"public\"],\"code_challenge_methods_supported\":[\"plain\",\"S256\"],\"request_parameter_supported\":true,\"request_object_signing_alg_values_supported\":[\"RS256\",\"RS384\",\"RS512\",\"PS256\",\"PS384\",\"PS512\",\"ES256\",\"ES384\",\"ES512\",\"HS256\",\"HS384\",\"HS512\"],\"prompt_values_supported\":[\"none\",\"login\",\"consent\",\"select_account\"],\"authorization_response_iss_parameter_supported\":true,\"backchannel_token_delivery_modes_supported\":[\"poll\"],\"backchannel_user_code_parameter_supported\":true,\"dpop_signing_alg_values_supported\":[\"RS256\",\"RS384\",\"RS512\",\"PS256\",\"PS384\",\"PS512\",\"ES256\",\"ES384\",\"ES512\"],\"expired_jwks_uri\":\"https://helseid-sts.test.nhn.no/connect/expiredjwks\",\"available_idps\":\"https://helseid-sts.test.nhn.no/connect/availableidps\"}";
                          OpenIdConnectConfiguration? config = metadata.Deserialize<OpenIdConnectConfiguration>();
                          options.ConfigurationManager = new FakeStaticConfigurationManager(config ?? new OpenIdConnectConfiguration());
+                         //Fake token callback
                          options.Backchannel = new HttpClient(new FakeOpenIdConnectHandler())
                          {
                              BaseAddress = new Uri("https://fake-identity-provider")
@@ -162,26 +163,27 @@ namespace Fhi.HelseId.Web.IntegrationTests
             });
             app.Start();
 
+            /*** Should redirect to Identity provider ***/
             var client = app.GetTestClient();
             var response = await client.GetAsync("/test-endpoint");
-
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
 
+            /*** Read redirect parameters and simulate callback with code from Identity provider ***/
             var queryParams = HttpUtility.ParseQueryString(response.Headers.Location!.Query);
             var cookie = response.Headers.FirstOrDefault(x => x.Key == "Set-Cookie").Value;
             Dictionary<string, string?> callbackRequest = new Dictionary<string, string?>
             {
                 ["code"] = "D4551ADD9D230EF3FB4052AEFA6A9A81206BF71CB6EE417CC744D6A252B0EF63-1",
-                ["scope"] = "openid profile helseid://scopes/identity/pid helseid://scopes/identity/pid_pseudonym helseid://scopes/identity/security_level offline_access",
+                ["scope"] = queryParams["scope"],
                 ["state"] = queryParams["state"],
                 ["iss"] = "https://helseid-sts.test.nhn.no"
             };
-
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri("https://localhost/signin-callback "));
             request.Headers.Add("Cookie", cookie);
             request.Content = new FormUrlEncodedContent(callbackRequest);
-
             var callbackResponse = await client.SendAsync(request);
+
+            Assert.That(callbackResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         /// <summary>
@@ -263,30 +265,20 @@ namespace Fhi.HelseId.Web.IntegrationTests
 
     internal class FakeStaticConfigurationManager : StaticConfigurationManager<OpenIdConnectConfiguration>
     {
-        
         public FakeStaticConfigurationManager(OpenIdConnectConfiguration configuration) : base(configuration)
         {
         }
-
-        public override Task<BaseConfiguration> GetBaseConfigurationAsync(CancellationToken cancel)
-        {
-            return base.GetBaseConfigurationAsync(cancel);
-        }
-
-        public override void RequestRefresh()
-        {
-            base.RequestRefresh();
-        }
     }
 
-    public class FakeOpenIdConnectHandler : HttpMessageHandler
+    internal class FakeOpenIdConnectHandler : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            // Simulating a token response
+            // Simulating a token response (tokens is expired). Can use NHN TTT service to get new enpoints
             var fakeResponse = new
             {
-                access_token = "fake-access-token",
+                id_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4NjY3RjkwREMxMUJGMDRCRDk0NjdEMUY5MTIwQzRBNDM0MEI0Q0YiLCJ4NXQiOiJlR1pfa053UnZ3UzlsR2ZSLVJJTVNrTkF0TTgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2hlbHNlaWQtc3RzLnRlc3QubmhuLm5vIiwibmJmIjoxNzM5NTQ2OTA3LCJpYXQiOjE3Mzk1NDY5MDcsImV4cCI6MTczOTU0NzIwNywiYXVkIjoiODhkNDc0YTgtMDdkZi00ZGM0LWFiYjAtNmI3NTljMmI5OWVjIiwiYW1yIjpbInB3ZCJdLCJub25jZSI6IjYzODc1MTQzNjkwMzA4MTI4Ny5NV00yWm1OaE9UTXRPRFF3WlMwME9XTXpMV0ppTW1JdE9EY3hOelUzT0dKaE4ySmlORFV6T1Rjd09HVXRNemhsTUMwME4yTTBMV0ZtTUdRdE9EQTBNRGRqWWprMlptRXkiLCJhdF9oYXNoIjoiV1E5Sm9XYUh2N29OZi1vSTBSUEtqdyIsInNfaGFzaCI6Ikhad2VWb0JDWXFYcy1jdEhxSFhMWUEiLCJzaWQiOiIwNzFGRTI3NjA2OUUwNTI5MUE5QjFFM0JCRTA1MkI0NCIsInN1YiI6IlBHelZ6dlAySnZsWFZcdTAwMkJcdTAwMkJPSlNKQVFHNWQ5OUJIOFFzaWtteHBkSUFLU1prPSIsImF1dGhfdGltZSI6MTczOTUzNTIzMCwiaWRwIjoidGVzdGlkcC1vaWRjIiwiaGVsc2VpZDovL2NsYWltcy9pZGVudGl0eS9waWQiOiIwNjgyODM5OTc4OSIsImhlbHNlaWQ6Ly9jbGFpbXMvaWRlbnRpdHkvc2VjdXJpdHlfbGV2ZWwiOiI0IiwiaGVsc2VpZDovL2NsYWltcy9pZGVudGl0eS9waWRfcHNldWRvbnltIjoiUEd6Vnp2UDJKdmxYVlx1MDAyQlx1MDAyQk9KU0pBUUc1ZDk5Qkg4UXNpa214cGRJQUtTWms9IiwibmFtZSI6IktWQVJUIEdSRVZMSU5HIiwiZ2l2ZW5fbmFtZSI6IktWQVJUIiwibWlkZGxlX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IkdSRVZMSU5HIn0.PmEv83aIQ5HAvjm0D88nPhrQOlfOCJKFwbf7xQG7059uanho2ekVaw_WwRalvFXQaVKGLnqX6pdBNJWDeKyq7uV5i7rgsZJjPoAYadsFUHn9kjUrc8Hng6Aj_gsb3VW1Sw9YSBvnPnDAIsaERPIGTatI_ucqsSh_VQM86Bpqfgtf3pMzo-lKqEKHgLIlXCEdrAt0KnSf6m9bT6OH_uZI5Vg5J5IE0UMpkXXyCCcANP2pcVIJmNzDKmAavcw4ngOzSuOPpA36Xec3T9NzNel-dPuPXhacRbLYmjjvBN48jeVzkpTJ93PEPTY4Sgd9994-_xqoISCmtpO5tMa-AjWlNXvR5nMfv_kcdfap0-LqA4pMcPwyJa0A8dTiomdChdKgQ2Xr2r8RyoJAG5fg1u3nQI0RZkLY7hWVY0G-whGOJQXUM1Kyqykky4mhtIHknXQhOOVpHSif6rbs3k4zlbGsTeafu_GkcbqONJdLWe08zwPhUqll4KgNcaUqMgV4QGCV",
+                access_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc4NjY3RjkwREMxMUJGMDRCRDk0NjdEMUY5MTIwQzRBNDM0MEI0Q0YiLCJ4NXQiOiJlR1pfa053UnZ3UzlsR2ZSLVJJTVNrTkF0TTgiLCJ0eXAiOiJhdCtqd3QifQ.eyJpc3MiOiJodHRwczovL2hlbHNlaWQtc3RzLnRlc3QubmhuLm5vIiwibmJmIjoxNzM5NTQ4MDMzLCJpYXQiOjE3Mzk1NDgwMzMsImV4cCI6MTczOTU0ODYzMywiYXVkIjoiZmhpOndlYXRoZXIiLCJjbmYiOnsiamt0IjoiLUpZZFFjcUd5MFFtYnB2NnBYXzJFZEprR2NpUnU3QmFESmszSHo0V2RaNCJ9LCJzY29wZSI6WyJvcGVuaWQiLCJwcm9maWxlIiwiaGVsc2VpZDovL3Njb3Blcy9pZGVudGl0eS9waWQiLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3BpZF9wc2V1ZG9ueW0iLCJoZWxzZWlkOi8vc2NvcGVzL2lkZW50aXR5L3NlY3VyaXR5X2xldmVsIiwiZmhpOndlYXRoZXIvYWNjZXNzIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdLCJjbGllbnRfaWQiOiI4OGQ0NzRhOC0wN2RmLTRkYzQtYWJiMC02Yjc1OWMyYjk5ZWMiLCJjbGllbnRfYW1yIjoicHJpdmF0ZV9rZXlfand0Iiwic3ViIjoiUEd6Vnp2UDJKdmxYVlx1MDAyQlx1MDAyQk9KU0pBUUc1ZDk5Qkg4UXNpa214cGRJQUtTWms9IiwiYXV0aF90aW1lIjoxNzM5NTM1MjMwLCJpZHAiOiJ0ZXN0aWRwLW9pZGMiLCJoZWxzZWlkOi8vY2xhaW1zL2lkZW50aXR5L3BpZCI6IjA2ODI4Mzk5Nzg5IiwiaGVsc2VpZDovL2NsYWltcy9pZGVudGl0eS9zZWN1cml0eV9sZXZlbCI6IjQiLCJuYW1lIjoiS1ZBUlQgR1JFVkxJTkciLCJnaXZlbl9uYW1lIjoiS1ZBUlQiLCJtaWRkbGVfbmFtZSI6IiIsImZhbWlseV9uYW1lIjoiR1JFVkxJTkciLCJzaWQiOiIwNzFGRTI3NjA2OUUwNTI5MUE5QjFFM0JCRTA1MkI0NCIsImp0aSI6IkNERkY4RkFGQjk2RkUwODQzNTgxQTRDNTcxREEwQTBCIn0.hMBaPJXDmJiixw8oKGKmU6RV4YFm_PQ2KNQjscVw3JcrrBgQcAAmT7U3_GDSH9xNxkoVnbZGoY86awaZGI-GXpPdbJKipCRurEvAcpnSSt6MQmhfT8IsMbLGfmEnR38K_LaQxs-UnSMsIt5wGls6W7R4PsPknyqymbOyIzZ1iMIE9TrXfi1083CkzQvlDHJJLH5gKmWeTB5NOFwhgZPCHgzElY8SIPjJ8TyKrbLykubBoZWxDkr5lZ8WgmAZzD6hODg0Sucrh9eYhcLeDU4_BEmJFQivCKopXHw0-QP3ZMixSb4fVwZ3cql2JlK7SAhlyfeUtDvMlSSA0qsWw9p6IqE9mUfKvH_uA2SUXcxN_OR0VP-7nKbutpuHRm2x8rsOhgJMX3e3qAqsQfrr39uaRx24ENSDZqctNDV2fDoKC67IKMGNpREmEs1acXtk73_0QsYpj1CscBtCPyiuQ27jyhdAxBOCJSVmFZLsjaBM0PLlRWlFt_c9m9KOEdR2k0RO",
                 token_type = "Bearer",
                 expires_in = 3600
             };
@@ -299,33 +291,6 @@ namespace Fhi.HelseId.Web.IntegrationTests
 
             return Task.FromResult(response);
         }
-    }
-
-    public class CustomOpenIdConnectConfiguration : OpenIdConnectConfiguration
-    {
-        [JsonPropertyName("claims_supported")] 
-        public new List<string>? ClaimsSupported { get; set; }
-
-        [JsonPropertyName("scopes_supported")]
-        public new List<string>? ScopesSupported { get; set; }
-
-        [JsonPropertyName("grant_types_supported")]
-        public new List<string>? GrantTypesSupported { get; set; }
-
-        [JsonPropertyName("response_types_supported")]
-        public new List<string>? ResponseTypesSupported { get; set; }
-
-        [JsonPropertyName("response_modes_supported")]
-        public new List<string>? ResponseModesSupported { get; set; }
-
-        [JsonPropertyName("token_endpoint_auth_methods_supported")]
-        public new List<string>? TokenEndpointAuthMethodsSupported { get; set; }
-
-        [JsonPropertyName("id_token_signing_alg_values_supported")]
-        public new List<string>? IdTokenSigningAlgValuesSupported { get; set; }
-
-        [JsonPropertyName("code_challenge_methods_supported")]
-        public new List<string>? CodeChallengeMethodsSupported { get; set; }
     }
 }
 

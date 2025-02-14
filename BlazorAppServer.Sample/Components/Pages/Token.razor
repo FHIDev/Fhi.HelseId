@@ -11,14 +11,19 @@
     <pre>@token</pre>
     <pre>@decodedToken</pre>
 }
-else
+
+<h3>Id Token</h3>
+
+@if (idToken is not null)
 {
-    <p>Loading or not authenticated...</p>
+    <pre>@idToken</pre>
 }
 
 @code {
     private string? token;
     private string? decodedToken;
+
+    private string? idToken;
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,6 +34,8 @@ else
         {
             token = HttpContextAccessor.HttpContext?.GetTokenAsync("access_token").Result;
             decodedToken = DecodeJwt(token!);
+
+            idToken = HttpContextAccessor.HttpContext?.GetTokenAsync("id_token").Result;
         }
     }
 
