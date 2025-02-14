@@ -12,6 +12,6 @@
   <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fhi.HelseId.Testframework\Fhi.TestFramework.csproj" />
+    <ProjectReference Include="..\Fhi.Testframework\Fhi.TestFramework.csproj" />
   </ItemGroup>
 </Project>

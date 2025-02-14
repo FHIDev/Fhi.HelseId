@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Common", "Fhi.H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Refit", "Fhi.HelseId.Refit\Fhi.HelseId.Refit.csproj", "{998ED07A-EF05-432F-AACA-731238401AD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework.Samples", "Fhi.HelseId.Samples\Fhi.TestFramework.Samples.csproj", "{3597B9B7-DD9C-424A-AAD1-DE68EB0674C3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Swagger", "Fhi.HelseId.Swagger\Fhi.HelseId.Swagger.csproj", "{8172E5A6-C4C0-4A6B-BE58-D3FF2A70B00F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Swagger.Tests", "Fhi.HelseId.Swagger.Tests\Fhi.HelseId.Swagger.Tests.csproj", "{20F8C7D1-9A5C-49D5-A9D4-DC9599CB7D8F}"
@@ -30,8 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Web", "Fhi.HelseId.Web\Fhi.HelseId.Web.csproj", "{2CF0EAC9-EE4E-485F-9B41-086C44694BF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.HelseId.Web.Tests", "Fhi.HelseId.Web.Tests\Fhi.HelseId.Web.Tests.csproj", "{65A0E43D-CD18-4CE2-B83B-056D6EB35627}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework", "Fhi.HelseId.Testframework\Fhi.TestFramework.csproj", "{9D6B9FA5-8C6D-4A51-B40A-19C39BD82247}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A9E9CDE-3CBA-49B0-9703-0DF29240F8A5}"
 	ProjectSection(SolutionItems) = preProject
@@ -69,6 +65,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\Fhi.HelseId.Nuget.yml = .github\workflows\Fhi.HelseId.Nuget.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework", "Fhi.Testframework\Fhi.TestFramework.csproj", "{968997BA-961F-4867-9DC7-C7660C3ED507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework.Samples", "Fhi.TestFramework.Samples\Fhi.TestFramework.Samples.csproj", "{C698E9CF-E944-4D42-94B8-90BBB78517E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,10 +103,6 @@ Global
 		{998ED07A-EF05-432F-AACA-731238401AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{998ED07A-EF05-432F-AACA-731238401AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{998ED07A-EF05-432F-AACA-731238401AD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3597B9B7-DD9C-424A-AAD1-DE68EB0674C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3597B9B7-DD9C-424A-AAD1-DE68EB0674C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3597B9B7-DD9C-424A-AAD1-DE68EB0674C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3597B9B7-DD9C-424A-AAD1-DE68EB0674C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8172E5A6-C4C0-4A6B-BE58-D3FF2A70B00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8172E5A6-C4C0-4A6B-BE58-D3FF2A70B00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8172E5A6-C4C0-4A6B-BE58-D3FF2A70B00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -131,10 +127,14 @@ Global
 		{65A0E43D-CD18-4CE2-B83B-056D6EB35627}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65A0E43D-CD18-4CE2-B83B-056D6EB35627}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65A0E43D-CD18-4CE2-B83B-056D6EB35627}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D6B9FA5-8C6D-4A51-B40A-19C39BD82247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D6B9FA5-8C6D-4A51-B40A-19C39BD82247}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D6B9FA5-8C6D-4A51-B40A-19C39BD82247}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D6B9FA5-8C6D-4A51-B40A-19C39BD82247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{968997BA-961F-4867-9DC7-C7660C3ED507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{968997BA-961F-4867-9DC7-C7660C3ED507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{968997BA-961F-4867-9DC7-C7660C3ED507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{968997BA-961F-4867-9DC7-C7660C3ED507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C698E9CF-E944-4D42-94B8-90BBB78517E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C698E9CF-E944-4D42-94B8-90BBB78517E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C698E9CF-E944-4D42-94B8-90BBB78517E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C698E9CF-E944-4D42-94B8-90BBB78517E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
