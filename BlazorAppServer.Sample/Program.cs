@@ -1,5 +1,6 @@
 using BlazorAppServer.Sample.Components;
 using Fhi.HelseId.Web.ExtensionMethods;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpContextAccessor();
+
 var authBuilder = builder.AddHelseIdWebAuthentication()
     .UseJwkKeySecretHandler()
     .Build();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+});
 
 var app = builder.Build();
 

@@ -89,6 +89,23 @@ namespace Fhi.HelseId.Web.OIDC
             return Task.CompletedTask;
         }
 
+        public override Task MessageReceived(MessageReceivedContext context)
+        {
+            if (_helseIdWebKonfigurasjon.UseDPoPTokens)
+            {
+                // Simply forward the flag that this request is being done in context of DPoP
+                // so that the backchannel handler knows we are talking DPoP.
+                if (context.Properties?.Items.ContainsKey(DPoPContext.ContextKey) == true)
+                {
+                    context.HttpContext.Items[DPoPContext.ContextKey] = "true";
+                }
+
+                return Task.CompletedTask;
+            }
+
+            return base.MessageReceived(context);
+        }
+
         private string GetAcrValues(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
         {
             return string.Join(' ', helseIdWebKonfigurasjon.SecurityLevels.Select(sl => $"Level{sl}"));

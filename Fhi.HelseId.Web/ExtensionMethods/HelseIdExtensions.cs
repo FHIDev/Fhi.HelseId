@@ -63,11 +63,6 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             options.SaveTokens = true;
 
             options.AccessDeniedPath = redirectPagesKonfigurasjon.Forbidden;
-            if (configAuth.UseDPoPTokens)
-            {
-                options.ForwardDPoPContext();
-            }
-
             return options;
         }
 
