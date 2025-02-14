@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fhi.HelseId.Api\Fhi.HelseId.Api.csproj" />
-    <ProjectReference Include="..\Fhi.HelseId.Testframework\Fhi.TestFramework.csproj" />
+    <ProjectReference Include="..\Fhi.Testframework\Fhi.TestFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector">

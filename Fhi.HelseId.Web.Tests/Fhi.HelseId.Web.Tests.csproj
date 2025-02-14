@@ -12,8 +12,8 @@
     <PackageReference Include="NSubstitute" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fhi.HelseId.Testframework\Fhi.TestFramework.csproj" />
     <ProjectReference Include="..\Fhi.HelseId.Web\Fhi.HelseId.Web.csproj" />
+    <ProjectReference Include="..\Fhi.Testframework\Fhi.TestFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UnitTests\" />
