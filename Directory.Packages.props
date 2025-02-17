@@ -31,8 +31,8 @@
     <!-- Direct reference, System.Security.Cryptography.Xml can be removed when transitive references are fixed. (4.4.0 was vulnerable) -->
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.2" />
     <!-- Direct references for transitive references. These packages must remain in sync. 
-			 For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
-			 or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
+         For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
+         or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.5.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.5.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.5.0" />
