@@ -27,7 +27,7 @@
     <PackageVersion Include="System.ServiceModel.Security" Version="6.0.0" />
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.1" />
     <PackageVersion Include="System.Formats.Asn1" Version="9.0.1" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.2" />
     <!-- Direct reference, System.Security.Cryptography.Xml can be removed when transitive references are fixed. (4.4.0 was vulnerable) -->
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.1" />
     <!-- Direct references for transitive references. These packages must remain in sync. 
