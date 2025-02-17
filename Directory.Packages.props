@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
@@ -19,36 +19,36 @@
     <PackageVersion Include="Refit" Version="8.0.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageVersion Include="Fhi.ClientCredentialsKeypairs" Version="3.0.0" />
+    <PackageVersion Include="Fhi.ClientCredentialsKeypairs" Version="3.1.0" />
     <PackageVersion Include="System.ServiceModel.Duplex" Version="6.0.0" />
     <PackageVersion Include="System.ServiceModel.Federation" Version="8.0.0" />
     <PackageVersion Include="System.ServiceModel.Http" Version="8.0.0" />
     <PackageVersion Include="System.ServiceModel.NetTcp" Version="8.1.0" />
     <PackageVersion Include="System.ServiceModel.Security" Version="6.0.0" />
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.1" />
-    <PackageVersion Include="System.Formats.Asn1" Version="9.0.1" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.1" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.2" />
+    <PackageVersion Include="System.Formats.Asn1" Version="9.0.2" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.2" />
     <!-- Direct reference, System.Security.Cryptography.Xml can be removed when transitive references are fixed. (4.4.0 was vulnerable) -->
-    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.1" />
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.2" />
     <!-- Direct references for transitive references. These packages must remain in sync. 
-			 For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
-			 or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.4.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.4.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.4.0" />
+         For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
+         or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.5.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.5.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.5.0" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.4.0" />
     <!-- End direct references -->
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.12" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.13" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" Version="8.0.13" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Analyzers" Version="9.0.2" />
   </ItemGroup>
 </Project>
