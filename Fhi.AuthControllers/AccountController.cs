@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Identity;
+using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

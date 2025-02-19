@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Fhi.HelseId.Common;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Exceptions;

@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Fhi.HelseId.Common;
 using Fhi.HelseId.Web;

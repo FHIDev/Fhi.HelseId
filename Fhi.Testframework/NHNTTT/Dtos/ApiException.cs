@@ -1,4 +1,4 @@
-﻿namespace Fhi.TestFramework.NHNTTT.Dtos
+namespace Fhi.TestFramework.NHNTTT.Dtos
 {
     internal class ApiException(string message, int statusCode, string response, IReadOnlyDictionary<string, IEnumerable<string>> headers, Exception innerException) : Exception(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + (response == null ? "(null)" : response[..(response.Length >= 512 ? 512 : response.Length)]), innerException)
     {

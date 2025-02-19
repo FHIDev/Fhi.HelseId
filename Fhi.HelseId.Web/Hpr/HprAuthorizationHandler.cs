@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.ExtensionMethods;

@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Fhi.TestFramework.AuthenticationSchemes.TestAuthenticationScheme

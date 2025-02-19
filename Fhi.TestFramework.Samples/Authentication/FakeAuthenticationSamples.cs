@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.TestFramework;

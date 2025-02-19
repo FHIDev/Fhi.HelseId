@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Text.Json;
 using Fhi.ClientCredentialsKeypairs;
 using Fhi.HelseId.Api.ExtensionMethods;

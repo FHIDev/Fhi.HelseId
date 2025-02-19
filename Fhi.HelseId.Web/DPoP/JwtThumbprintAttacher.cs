@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.Services;
+using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 

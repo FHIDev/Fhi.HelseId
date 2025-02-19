@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web;

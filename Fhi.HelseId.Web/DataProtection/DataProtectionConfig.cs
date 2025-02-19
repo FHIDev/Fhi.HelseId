@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Web.DataProtection
+namespace Fhi.HelseId.Web.DataProtection
 {
     public class DataProtectionConfig
     {

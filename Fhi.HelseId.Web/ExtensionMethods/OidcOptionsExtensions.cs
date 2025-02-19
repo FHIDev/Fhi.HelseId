@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Fhi.HelseId.Web.DPoP;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 

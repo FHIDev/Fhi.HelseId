@@ -1,4 +1,4 @@
-﻿namespace Fhi.TestFramework.NHNTTT.Dtos
+namespace Fhi.TestFramework.NHNTTT.Dtos
 {
     internal record ErrorResponse
     {

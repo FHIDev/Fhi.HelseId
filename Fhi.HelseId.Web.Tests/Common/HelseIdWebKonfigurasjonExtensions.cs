@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Web.Common
+namespace Fhi.HelseId.Web.Common
 {
     internal class HelseIdWebKonfigurasjonBuilder
     {

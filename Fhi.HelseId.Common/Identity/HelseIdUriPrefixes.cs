@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Common.Identity
+namespace Fhi.HelseId.Common.Identity
 {
     public static class HelseIdUriPrefixes
     {

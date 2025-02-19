@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 namespace Fhi.HelseId.Web.Hpr.Core
 {

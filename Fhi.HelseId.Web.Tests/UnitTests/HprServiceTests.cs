@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.Hpr;
+using Fhi.HelseId.Web.Hpr;
 using Fhi.HelseId.Web.Hpr.Core;
 using Fhi.HelseId.Web.Services;
 using NSubstitute;

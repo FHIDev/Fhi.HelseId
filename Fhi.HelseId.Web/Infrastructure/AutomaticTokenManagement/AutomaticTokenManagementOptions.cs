@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement

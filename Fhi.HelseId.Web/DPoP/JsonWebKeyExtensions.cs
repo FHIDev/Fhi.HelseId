@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Fhi.HelseId.Web.DPoP;
