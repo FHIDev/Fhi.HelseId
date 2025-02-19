@@ -9,7 +9,7 @@ public interface IProofRedirector
     void AttachThumbprint(RedirectContext ctx);
 }
 
-public class JwtThumbprintAttacher(IHelseIdSecretHandler secretHandler) : IProofRedirector
+public class JwtThumbprintAttacher(IHelseIdClientSecretHandler secretHandler) : IProofRedirector
 {
     public void AttachThumbprint(RedirectContext ctx)
     {

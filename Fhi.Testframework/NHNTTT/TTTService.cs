@@ -30,7 +30,7 @@ public static class TTTService
     /// <returns></returns>
     private static async Task<string> CreateTestTokenWithApiKey_V2(TokenRequest tokenRequest,
         string baseUri = "https://helseid-ttt.test.nhn.no",
-        string authKey = "0f917bd1-fc02-4ebf-8e94-e9c9d1772d4c")
+        string authKey = "7115f2ca-4473-4ea8-aaf3-c067341413a1")
     {
         HttpClient client = new() { BaseAddress = new Uri(baseUri) };
         client.DefaultRequestHeaders.Add("X-Auth-Key", authKey);

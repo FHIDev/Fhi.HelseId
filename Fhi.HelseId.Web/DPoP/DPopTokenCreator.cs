@@ -19,7 +19,7 @@ public interface IDPoPTokenCreator
 
 public class DPoPTokenCreator(
     INonceStore nonceStore,
-    IHelseIdSecretHandler secretHandler) : IDPoPTokenCreator
+    IHelseIdClientSecretHandler secretHandler) : IDPoPTokenCreator
 {
     public async Task<string> CreateSignedToken(HttpMethod method, string url, string? nonce = null, string? ath = null)
     {
