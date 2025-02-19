@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 
-
 namespace Fhi.HelseId.Web.IntegrationTests
 {
     /// <summary>

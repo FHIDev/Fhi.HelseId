@@ -24,7 +24,7 @@ namespace Fhi.HelseId.Common.Identity
             };
 
             var payload = CreatePayload(clientId, issuer, extraClaims);
-            var header = new JwtHeader(signingCredentials);
+            var header = new JwtHeader(signingCredentials, null, "client-authentication+jwt");
             UpdateJwtHeader(securityKey, header);
 
             var tokenHandler = new JwtSecurityTokenHandler();

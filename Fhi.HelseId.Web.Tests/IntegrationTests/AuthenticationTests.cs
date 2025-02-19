@@ -112,7 +112,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
 
         [Test]
-        //[Ignore("Used for simpler debugging without having an app to simulate OIDC auth code flow")]
+        [Ignore("Used for simpler debugging without having an app to simulate OIDC auth code flow")]
         public async Task SimulateOIDCFlow()
         {
             var appsettingsConfig = new Dictionary<string, string?>

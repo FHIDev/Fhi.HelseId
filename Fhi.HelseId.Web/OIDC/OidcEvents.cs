@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Services;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +35,7 @@ namespace Fhi.HelseId.Web.OIDC
             {
                 string clientAssertion = await GenerateClientAssertion(context.Options.ConfigurationManager);
 
-                context.TokenEndpointRequest.ClientAssertionType = OidcConstants.ClientAssertionTypes.JwtBearer;
+                context.TokenEndpointRequest.ClientAssertionType = OAuthConstants.JwtBearerClientAssertionType;
                 context.TokenEndpointRequest.ClientAssertion = clientAssertion;
             }
         }
@@ -47,7 +47,7 @@ namespace Fhi.HelseId.Web.OIDC
             {
                 string clientAssertion = await GenerateClientAssertion(context.Options.ConfigurationManager);
 
-                context.ProtocolMessage.ClientAssertionType = OidcConstants.ClientAssertionTypes.JwtBearer;
+                context.ProtocolMessage.ClientAssertionType = OAuthConstants.JwtBearerClientAssertionType;
                 context.ProtocolMessage.ClientAssertion = clientAssertion;
             }
         }
