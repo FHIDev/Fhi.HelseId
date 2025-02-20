@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Common.Configuration
+namespace Fhi.HelseId.Common.Configuration
 {
     public abstract class HelseIdCommonKonfigurasjon
     {

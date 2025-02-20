@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Common.DPoP;
+namespace Fhi.HelseId.Common.DPoP;
 
 public struct AuthorizationScheme
 {

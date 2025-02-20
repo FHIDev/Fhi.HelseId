@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Fhi.HelseId.Common.Identity;
 using Microsoft.AspNetCore.Http;

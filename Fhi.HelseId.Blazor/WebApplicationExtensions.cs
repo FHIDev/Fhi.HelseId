@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Exceptions;
+using Fhi.HelseId.Common.Exceptions;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web;
 using Microsoft.AspNetCore.Authentication;

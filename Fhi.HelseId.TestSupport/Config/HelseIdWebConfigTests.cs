@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Configuration;
+using Fhi.HelseId.Common.Configuration;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 

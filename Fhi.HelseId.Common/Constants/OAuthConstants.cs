@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Common.Constants
+namespace Fhi.HelseId.Common.Constants
 {
     public static class OAuthConstants
     {

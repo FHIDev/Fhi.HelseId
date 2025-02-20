@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.ExtensionMethods;
+using Fhi.HelseId.Web.ExtensionMethods;
 using NUnit.Framework;
 
 namespace Fhi.HelseId.Web.UnitTests

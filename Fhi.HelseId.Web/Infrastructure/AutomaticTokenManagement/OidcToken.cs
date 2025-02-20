@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 
 namespace Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement

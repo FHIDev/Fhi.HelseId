@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using System.Net;
 using System.Web;
 using Fhi.HelseId.Web.Common;

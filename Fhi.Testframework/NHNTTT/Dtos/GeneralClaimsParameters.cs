@@ -1,4 +1,4 @@
-﻿namespace Fhi.TestFramework.NHNTTT.Dtos
+namespace Fhi.TestFramework.NHNTTT.Dtos
 {
     public record GeneralClaimsParameters(ICollection<string> Scope,
         string? ClientId,

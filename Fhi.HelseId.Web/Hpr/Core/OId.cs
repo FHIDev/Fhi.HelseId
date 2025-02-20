@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Web.Hpr.Core
+namespace Fhi.HelseId.Web.Hpr.Core
 {
     public enum OId
     {

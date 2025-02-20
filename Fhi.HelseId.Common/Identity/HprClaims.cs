@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Fhi.HelseId.Common.Identity;

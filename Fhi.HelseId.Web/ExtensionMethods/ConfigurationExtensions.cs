@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Exceptions;
+using Fhi.HelseId.Common.Exceptions;
 using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Web.DataProtection;
 using Microsoft.Extensions.Configuration;

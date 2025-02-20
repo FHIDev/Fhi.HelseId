@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Constants;
+using Fhi.HelseId.Common.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;

@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Fhi.HelseId.Common.ExtensionMethods;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Hpr.Core;

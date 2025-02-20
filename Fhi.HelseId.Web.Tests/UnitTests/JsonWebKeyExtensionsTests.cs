@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using Fhi.HelseId.Web.DPoP;
 using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;

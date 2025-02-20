@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.DPoP;
+using Fhi.HelseId.Web.DPoP;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
 using NUnit.Framework;

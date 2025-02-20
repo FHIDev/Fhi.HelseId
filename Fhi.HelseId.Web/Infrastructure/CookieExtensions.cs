@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;

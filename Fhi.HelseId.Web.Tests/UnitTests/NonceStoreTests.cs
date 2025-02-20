@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Fhi.HelseId.Web.DPoP;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;

@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Api.Services;
+using Fhi.HelseId.Api.Services;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;
 using NSubstitute;

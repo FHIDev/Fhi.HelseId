@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Common.Identity;
+using Fhi.HelseId.Common.Identity;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable once CheckNamespace
