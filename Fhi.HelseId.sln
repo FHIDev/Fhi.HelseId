@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework", "Fhi.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fhi.TestFramework.Samples", "Fhi.TestFramework.Samples\Fhi.TestFramework.Samples.csproj", "{C698E9CF-E944-4D42-94B8-90BBB78517E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{D649B853-4D2E-438B-9883-CFDF093142C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D649B853-4D2E-438B-9883-CFDF093142C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppServer.Sample", "BlazorAppServer.Sample\BlazorAppServer.Sample.csproj", "{11B05C83-1479-4CF8-B826-DD25D7EC7848}"
 EndProject

@@ -16,9 +16,6 @@
     <ProjectReference Include="..\Fhi.Testframework\Fhi.TestFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UnitTests\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="UnitTests\appsettings.test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,4 +1,4 @@
-using BlazorAppServer.Sample;
+﻿using BlazorAppServer.Sample;
 using BlazorAppServer.Sample.Components;
 using Fhi.HelseId.Blazor;
 using Fhi.HelseId.Web.ExtensionMethods;
@@ -12,15 +12,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpContextAccessor();
 
-var authBuilder = builder.AddHelseIdWebAuthentication()
+builder.AddHelseIdWebAuthentication()
     .UseJwkKeySecretHandler()
     .Build();
-
-var options = new HelseidRefitBuilderForBlazorOptions()
-{
-    UseDefaultTokenHandler = false,
-    HtmlEncodeFhiHeaders = false
-};
 
 builder.Services.AddTransient<WeatherService>();
 builder.AddHelseIdForBlazor()
