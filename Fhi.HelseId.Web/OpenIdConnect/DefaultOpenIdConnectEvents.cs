@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Fhi.HelseId.Common.Constants;
+﻿using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Services;
@@ -11,14 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace Fhi.HelseId.Web.OIDC
+namespace Fhi.HelseId.Web.OpenIdConnect
 {
-    public class OidcEvents : OpenIdConnectEvents
+    public class DefaultOpenIdConnectEvents : OpenIdConnectEvents
     {
         private readonly IHelseIdClientSecretHandler _secretHandler;
         private readonly IHelseIdWebKonfigurasjon _helseIdWebKonfigurasjon;
 
-        public OidcEvents(IHelseIdClientSecretHandler secretHandler, IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
+        public DefaultOpenIdConnectEvents(IHelseIdClientSecretHandler secretHandler, IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
         {
             _secretHandler = secretHandler;
             _helseIdWebKonfigurasjon = helseIdWebKonfigurasjon;

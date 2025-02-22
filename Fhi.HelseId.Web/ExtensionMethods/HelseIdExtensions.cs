@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;
-using Fhi.HelseId.Web.OIDC;
+using Fhi.HelseId.Web.OpenIdConnect;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,7 +45,7 @@ namespace Fhi.HelseId.Web.ExtensionMethods
             options.CallbackPath = "/signin-callback";
             options.SignedOutCallbackPath = "/signout-callback";
             options.Scope.Clear();
-            options.EventsType = typeof(OidcEvents);
+            options.EventsType = typeof(DefaultOpenIdConnectEvents);
             //// options.CorrelationCookie.SameSite = SameSiteMode.Lax;
             //// options.NonceCookie.SameSite = SameSiteMode.Lax;
 

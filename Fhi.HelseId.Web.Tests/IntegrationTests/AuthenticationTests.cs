@@ -7,7 +7,7 @@ using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Common;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.HelseId.Web.IntegrationTests.Setup;
-using Fhi.HelseId.Web.OIDC;
+using Fhi.HelseId.Web.OpenIdConnect;
 using Fhi.HelseId.Web.Services;
 using Fhi.TestFramework;
 using Fhi.TestFramework.Extensions;
@@ -235,7 +235,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
         }
     }
 
-    internal class FakeOIDCEvents : OidcEvents
+    internal class FakeOIDCEvents : DefaultOpenIdConnectEvents
     {
         public FakeOIDCEvents(IHelseIdClientSecretHandler secretHandler, IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon) : base(secretHandler, helseIdWebKonfigurasjon)
         {
