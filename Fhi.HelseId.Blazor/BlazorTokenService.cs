@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;
 using Microsoft.AspNetCore.Authentication;

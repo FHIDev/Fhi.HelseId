@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using Fhi.TestFramework.Extensions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;

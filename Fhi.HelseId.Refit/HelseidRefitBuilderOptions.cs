@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Refit;
+namespace Fhi.HelseId.Refit;
 
 /// <summary>
 /// Options for customizing the default options used when creating Refit clients

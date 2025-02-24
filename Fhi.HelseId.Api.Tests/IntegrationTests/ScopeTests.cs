@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Fhi.HelseId.Api;
 using Fhi.HelseId.Api.ExtensionMethods;
 using Fhi.HelseId.Integration.Tests.HelseId.Api.Setup;

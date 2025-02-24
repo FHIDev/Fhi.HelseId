@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Api.DPoP;
+using Fhi.HelseId.Api.DPoP;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
 

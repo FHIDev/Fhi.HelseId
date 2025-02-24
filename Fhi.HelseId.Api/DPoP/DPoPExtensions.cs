@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Fhi.HelseId.Common.DPoP;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;

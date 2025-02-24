@@ -1,4 +1,4 @@
-﻿using AspNetCore.DataProtection.SqlServer;
+using AspNetCore.DataProtection.SqlServer;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

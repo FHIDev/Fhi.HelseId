@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Blazor
+namespace Fhi.HelseId.Blazor
 {
     /// <summary>
     /// Options for customizing the default options used when creating Refit clients

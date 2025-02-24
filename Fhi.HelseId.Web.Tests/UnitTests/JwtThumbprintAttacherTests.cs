@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using Fhi.HelseId.Web.DPoP;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;

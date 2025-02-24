@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Api;
+using Fhi.HelseId.Api;
 
 namespace Fhi.HelseId.Integration.Tests.HelseId.Api.Setup
 {

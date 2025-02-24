@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using Fhi.HelseId.Api.ExtensionMethods;
 using Microsoft.AspNetCore.Http;

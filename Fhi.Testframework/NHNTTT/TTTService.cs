@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using Fhi.TestFramework.Extensions;
 using Fhi.TestFramework.NHNTTT.Dtos;

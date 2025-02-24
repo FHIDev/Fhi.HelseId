@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.ExtensionMethods;
+using Fhi.HelseId.Web.ExtensionMethods;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 

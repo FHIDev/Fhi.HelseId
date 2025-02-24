@@ -1,4 +1,4 @@
-﻿namespace Fhi.HelseId.Web.DPoP;
+namespace Fhi.HelseId.Web.DPoP;
 
 public class DPoPContext
 {

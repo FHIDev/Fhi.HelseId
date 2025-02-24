@@ -1,4 +1,4 @@
-﻿using Fhi.TestFramework.NHNTTT;
+using Fhi.TestFramework.NHNTTT;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 

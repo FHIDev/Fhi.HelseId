@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Web.ExtensionMethods;
+using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.TestFramework.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.TestHost;

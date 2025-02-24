@@ -1,4 +1,4 @@
-﻿using Fhi.HelseId.Api.DPoP;
+using Fhi.HelseId.Api.DPoP;
 using Fhi.HelseId.Api.ExtensionMethods;
 using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;

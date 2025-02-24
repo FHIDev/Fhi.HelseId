@@ -1,15 +1,17 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-[*]
-charset = utf-8-bom
-
-[*.cs]
+# Code files
+[*.{cs,csx,vb,vbx}]
+charset = utf-8
 indent_style = space
 indent_size = 4
 dotnet_diagnostic.CS1591.severity = none
 dotnet_sort_system_directives_first = true
 end_of_line = crlf
+
+[*.{razor,cshtml}]
+charset = utf-8-bom
 
 [*.razor]
 dotnet_diagnostic.CS1591.severity = none

@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using Fhi.HelseId.Common.DPoP;
 using Fhi.HelseId.Web.DPoP;
