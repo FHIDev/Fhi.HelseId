@@ -12,7 +12,7 @@ namespace Fhi.HelseId.Common.Identity
 {
     public static class ClientAssertion
     {
-        public static string Generate(string clientId, string authority, SecurityKey securityKey)
+        public static string Generate(string clientId, string issuer, SecurityKey securityKey)
         {
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha512);
 
@@ -23,10 +23,8 @@ namespace Fhi.HelseId.Common.Identity
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N"))
             };
 
-            var audience = new Uri(new Uri(authority), "connect/token").AbsoluteUri;
-
-            var payload = CreatePayload(clientId, audience, extraClaims);
-            var header = new JwtHeader(signingCredentials);
+            var payload = CreatePayload(clientId, issuer, extraClaims);
+            var header = new JwtHeader(signingCredentials, null, "client-authentication+jwt");
             UpdateJwtHeader(securityKey, header);
 
             var tokenHandler = new JwtSecurityTokenHandler();

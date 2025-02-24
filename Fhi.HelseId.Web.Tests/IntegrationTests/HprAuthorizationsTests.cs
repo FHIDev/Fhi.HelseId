@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 
 namespace Fhi.HelseId.Web.IntegrationTests
@@ -172,7 +171,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
                     services.AddSingleton<IAuthorizationMiddlewareResultHandler, FakeAuthorizationResultHandler>();
                     services.AddFakeTestAuthenticationScheme(userClaims);
                     services.AddHelseIdWebAuthentication(appSettings).Build();
-                
+
                     var godkjenninger = new GodkjenteHprKategoriListe();
                     godkjenninger.Add(Kodekonstanter.OId9060Sykepleier);
                     services.AddSingleton<IGodkjenteHprKategoriListe>(godkjenninger);
@@ -297,7 +296,7 @@ namespace Fhi.HelseId.Web.IntegrationTests
                 app.UseRouting();
                 app.MapGet("/api/test-endpoint", [Authorize] (HttpContext httpContext) =>
                 {
-                    return; 
+                    return;
                 });
                 app.UseAuthentication();
                 app.UseAuthorization();

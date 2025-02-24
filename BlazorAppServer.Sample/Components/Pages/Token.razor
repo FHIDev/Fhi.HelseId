@@ -1,0 +1,49 @@
+﻿@page "/token"
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IHttpContextAccessor HttpContextAccessor
+
+<h3>Access Token</h3>
+
+@if (token is not null)
+{
+    <pre>@token</pre>
+    <pre>@decodedToken</pre>
+}
+
+<h3>Id Token</h3>
+
+@if (idToken is not null)
+{
+    <pre>@idToken</pre>
+}
+
+@code {
+    private string? token;
+    private string? decodedToken;
+
+    private string? idToken;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            token = HttpContextAccessor.HttpContext?.GetTokenAsync("access_token").Result;
+            decodedToken = DecodeJwt(token!);
+
+            idToken = HttpContextAccessor.HttpContext?.GetTokenAsync("id_token").Result;
+        }
+    }
+
+    private string DecodeJwt(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(token);
+
+        return System.Text.Json.JsonSerializer.Serialize(jwt.Payload, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+    }
+}

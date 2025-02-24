@@ -131,7 +131,8 @@ public partial class HelseidRefitBuilderForBlazorTests
             Substitute.For<HttpClient>(),
             Substitute.For<IHttpContextAccessor>(),
             NullLogger<TokenEndpointService>.Instance,
-            Substitute.For<IHelseIdSecretHandler>()));
+            Substitute.For<IHelseIdClientSecretHandler>(),
+            Substitute.For<IHelseIdWebKonfigurasjon>()));
 
         return services;
     }

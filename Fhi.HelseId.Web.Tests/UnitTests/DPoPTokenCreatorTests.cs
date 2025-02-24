@@ -13,7 +13,7 @@ internal class DPoPTokenCreatorTests
 {
     private INonceStore? _nonceStore;
     private DPoPTokenCreator? _dPoPTokenCreator;
-    private IHelseIdSecretHandler? _secretHandler;
+    private IHelseIdClientSecretHandler? _secretHandler;
 
     [SetUp]
     public void SetUp()
@@ -22,7 +22,7 @@ internal class DPoPTokenCreatorTests
         var jsonWebKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(rsaKey);
 
         _nonceStore = Substitute.For<INonceStore>();
-        _secretHandler = Substitute.For<IHelseIdSecretHandler>();
+        _secretHandler = Substitute.For<IHelseIdClientSecretHandler>();
         _secretHandler.GetSecurityKey().Returns(jsonWebKey);
 
         _dPoPTokenCreator = new DPoPTokenCreator(_nonceStore, _secretHandler);
@@ -83,7 +83,7 @@ internal class DPoPTokenCreatorTests
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);
         Assert.That(jwtToken.Claims.Any(c => c.Type == JwtRegisteredClaimNames.Jti), Is.True);
-        Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpMethod && c.Value == method.ToString().ToUpperInvariant()), Is.True);
+        Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpMethod && c.Value.Equals(method.ToString(), StringComparison.InvariantCultureIgnoreCase)), Is.True);
         Assert.That(jwtToken.Claims.Any(c => c.Type == DPoPClaimNames.HttpUrl && c.Value == url), Is.True);
         Assert.That(jwtToken.Claims.Any(c => c.Type == JwtRegisteredClaimNames.Iat && c.Value == iat), Is.True);
     }

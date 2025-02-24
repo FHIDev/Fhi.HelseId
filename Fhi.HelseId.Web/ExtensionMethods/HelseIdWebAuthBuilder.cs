@@ -10,6 +10,7 @@ using Fhi.HelseId.Web.Handlers;
 using Fhi.HelseId.Web.Hpr;
 using Fhi.HelseId.Web.Infrastructure.AutomaticTokenManagement;
 using Fhi.HelseId.Web.Middleware;
+using Fhi.HelseId.Web.OpenIdConnect;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -31,7 +32,7 @@ public class HelseIdWebAuthBuilder
     private readonly IConfigurationSection _helseIdWebKonfigurasjonSection;
     public IHelseIdWebKonfigurasjon HelseIdWebKonfigurasjon { get; }
     public RedirectPagesKonfigurasjon RedirectPagesKonfigurasjon { get; }
-    public IHelseIdSecretHandler SecretHandler { get; set; }
+    public IHelseIdClientSecretHandler SecretHandler { get; set; }
 
     /// <summary>
     /// Checks the HelseIdWebKonfigurasjon.AuthUse property
@@ -196,6 +197,7 @@ public class HelseIdWebAuthBuilder
     /// </summary>
     private AuthenticationBuilder AddHelseIdAuthentication(ConfigureAuthentication? configureAuthentication = null)
     {
+        _services.AddTransient<DefaultOpenIdConnectEvents>();
         const double tokenRefreshBeforeExpirationTime = 2;
         var builder = _services.AddAuthentication(options =>
         {

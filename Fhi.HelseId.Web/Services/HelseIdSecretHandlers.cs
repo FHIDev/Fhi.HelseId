@@ -2,40 +2,28 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Web;
 using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Fhi.HelseId.Common.Constants;
 using Fhi.HelseId.Common.Exceptions;
-using Fhi.HelseId.Common.Identity;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Fhi.HelseId.Web.Services
 {
-    public interface IHelseIdSecretHandler
+    public interface IHelseIdClientSecretHandler
     {
         public JsonWebKey GetSecurityKey();
-        void AddSecretConfiguration(OpenIdConnectOptions options);
-        string GenerateClientAssertion { get; }
     }
 
-    public abstract class SecretHandlerBase : IHelseIdSecretHandler
+    public abstract class SecretHandlerBase : IHelseIdClientSecretHandler
     {
         public abstract JsonWebKey GetSecurityKey();
-
-        public const string ClientAssertionType = OAuthConstants.JwtBearerClientAssertionType;
 
         protected SecretHandlerBase(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
         {
             ConfigAuth = helseIdWebKonfigurasjon;
         }
-
-        public virtual void AddSecretConfiguration(OpenIdConnectOptions options) { }
-
-        public virtual string GenerateClientAssertion => ClientAssertion.Generate(ConfigAuth.ClientId, ConfigAuth.Authority, GetSecurityKey());
 
         protected IHelseIdWebKonfigurasjon ConfigAuth { get; }
     }
@@ -53,32 +41,6 @@ namespace Fhi.HelseId.Web.Services
             var jwk = File.ReadAllText(ConfigAuth.ClientSecret);
             Secret = new JsonWebKey(jwk);
         }
-
-        public override void AddSecretConfiguration(OpenIdConnectOptions options)
-        {
-            options.Events.OnAuthorizationCodeReceived = ctx =>
-            {
-                if (ctx.TokenEndpointRequest == null)
-                {
-                    throw new InvalidOperationException($"{nameof(ctx.TokenEndpointRequest)} cannot be null");
-                }
-
-                ctx.TokenEndpointRequest.ClientAssertionType = ClientAssertionType;
-                ctx.TokenEndpointRequest.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-
-#if NET9_0
-            options.Events.OnPushAuthorization = ctx =>
-            {
-                ctx.ProtocolMessage.ClientAssertionType = ClientAssertionType;
-                ctx.ProtocolMessage.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-#endif
-        }
     }
 
     /// <summary>
@@ -92,32 +54,6 @@ namespace Fhi.HelseId.Web.Services
         public HelseIdJwkSecretHandler(IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon) : base(helseIdWebKonfigurasjon)
         {
             Secret = new JsonWebKey(ConfigAuth.ClientSecret);
-        }
-
-        public override void AddSecretConfiguration(OpenIdConnectOptions options)
-        {
-            options.Events.OnAuthorizationCodeReceived = ctx =>
-            {
-                if (ctx.TokenEndpointRequest == null)
-                {
-                    throw new InvalidOperationException($"{nameof(ctx.TokenEndpointRequest)} cannot be null");
-                }
-
-                ctx.TokenEndpointRequest.ClientAssertionType = ClientAssertionType;
-                ctx.TokenEndpointRequest.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-
-#if NET9_0
-            options.Events.OnPushAuthorization = ctx =>
-            {
-                ctx.ProtocolMessage.ClientAssertionType = ClientAssertionType;
-                ctx.ProtocolMessage.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-#endif
         }
     }
 
@@ -151,32 +87,6 @@ namespace Fhi.HelseId.Web.Services
             var secret = secretClient.GetSecret(azureClientSettings[0]);
 
             Secret = new JsonWebKey(secret.Value.Value);
-        }
-
-        public override void AddSecretConfiguration(OpenIdConnectOptions options)
-        {
-            options.Events.OnAuthorizationCodeReceived = ctx =>
-            {
-                if (ctx.TokenEndpointRequest == null)
-                {
-                    throw new InvalidOperationException($"{nameof(ctx.TokenEndpointRequest)} cannot be null");
-                }
-
-                ctx.TokenEndpointRequest.ClientAssertionType = ClientAssertionType;
-                ctx.TokenEndpointRequest.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-
-#if NET9_0
-            options.Events.OnPushAuthorization = ctx =>
-            {
-                ctx.ProtocolMessage.ClientAssertionType = ClientAssertionType;
-                ctx.ProtocolMessage.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-#endif
         }
     }
 
@@ -217,32 +127,6 @@ namespace Fhi.HelseId.Web.Services
             var jwk = HttpUtility.UrlDecode(selvbetjeningConfig.PrivateJwk);
 
             Secret = new JsonWebKey(jwk);
-        }
-
-        public override void AddSecretConfiguration(OpenIdConnectOptions options)
-        {
-            options.Events.OnAuthorizationCodeReceived = ctx =>
-            {
-                if (ctx.TokenEndpointRequest == null)
-                {
-                    throw new InvalidOperationException($"{nameof(ctx.TokenEndpointRequest)} cannot be null");
-                }
-
-                ctx.TokenEndpointRequest.ClientAssertionType = ClientAssertionType;
-                ctx.TokenEndpointRequest.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-
-#if NET9_0
-            options.Events.OnPushAuthorization = ctx =>
-            {
-                ctx.ProtocolMessage.ClientAssertionType = ClientAssertionType;
-                ctx.ProtocolMessage.ClientAssertion = GenerateClientAssertion;
-
-                return Task.CompletedTask;
-            };
-#endif
         }
 
         public class SelvbetjeningConfig

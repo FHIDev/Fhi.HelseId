@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Fhi.HelseId.Common.Constants;
+using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -35,7 +36,8 @@ public class TokenEndpointService : ITokenEndpointService
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly HttpClient _httpClient;
     private readonly ILogger<TokenEndpointService> _logger;
-    private readonly IHelseIdSecretHandler? _secretHandler;
+    private readonly IHelseIdClientSecretHandler _secretHandler;
+    private readonly IHelseIdWebKonfigurasjon _helseIdWebKonfigurasjon;
 
     public TokenEndpointService(
         IOptions<AutomaticTokenManagementOptions> managementOptions,
@@ -44,9 +46,11 @@ public class TokenEndpointService : ITokenEndpointService
         HttpClient httpClient,
         IHttpContextAccessor httpContextAccessor,
         ILogger<TokenEndpointService> logger,
-        IHelseIdSecretHandler secretHandler)
+        IHelseIdClientSecretHandler secretHandler,
+        IHelseIdWebKonfigurasjon helseIdWebKonfigurasjon)
     {
         _secretHandler = secretHandler;
+        _helseIdWebKonfigurasjon = helseIdWebKonfigurasjon;
         _managementOptions = managementOptions.Value;
         _oidcOptions = oidcOptions;
         _schemeProvider = schemeProvider;
@@ -70,7 +74,8 @@ public class TokenEndpointService : ITokenEndpointService
         }
 
         var configuration = await oidcOptions.ConfigurationManager.GetConfigurationAsync(default);
-        var clientAssertion = _secretHandler?.GenerateClientAssertion;
+        var jwkKey = _secretHandler.GetSecurityKey();
+        var clientAssertion = ClientAssertion.Generate(_helseIdWebKonfigurasjon.ClientId, configuration.Issuer, jwkKey);
 
         var tokenEndpointRequest = new OpenIdConnectMessage()
         {
