@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageProjectUrl>https://www.nuget.org/packages/Fhi.AuthControllers</PackageProjectUrl>
     <PackageDescription>Account controllers for use with OAuth and HelseId</PackageDescription>
