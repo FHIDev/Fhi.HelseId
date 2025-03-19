@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 public class ApprovalResponse
@@ -17,7 +16,7 @@ public class ApprovalResponse
         [JsonPropertyName("requisition_rights")]
         public List<RequisitionRight> RequisitionRights { get; set; } = new List<RequisitionRight>();
         [JsonPropertyName("specialities")]
-        public List<string> Specialities { get; set; } = new List<string>();
+        public List<Speciality> Specialities { get; set; } = new List<Speciality>();
     }
 
     public class Authorization
@@ -29,6 +28,14 @@ public class ApprovalResponse
     }
 
     public class RequisitionRight
+    {
+        [JsonPropertyName("value")]
+        public string Value { get; set; } = string.Empty;
+        [JsonPropertyName("description")]
+        public string Description { get; set; } = string.Empty;
+    }
+
+    public class Speciality
     {
         [JsonPropertyName("value")]
         public string Value { get; set; } = string.Empty;
