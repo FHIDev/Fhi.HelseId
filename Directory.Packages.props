@@ -22,7 +22,7 @@
     <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageVersion Include="System.Text.Json" Version="9.0.3" />
     <!-- Direct reference, System.Security.Cryptography.Xml can be removed when transitive references are fixed. (4.4.0 was vulnerable) -->
-    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.2" />
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.3" />
     <!-- Direct references for transitive references. These packages must remain in sync. 
          For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
          or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
