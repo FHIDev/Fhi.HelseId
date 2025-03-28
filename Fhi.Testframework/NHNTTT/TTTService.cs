@@ -6,8 +6,14 @@ using Fhi.TestFramework.NHNTTT.Dtos;
 namespace Fhi.TestFramework.NHNTTT;
 
 /// <summary>
-/// Test token tjeneseten (TTT) https://utviklerportal.nhn.no/informasjonstjenester/helseid/tilgang-til-helseid/test-token-tjenesten/docs/test-token-tjenesten_no_nnmd/
+/// Test token tjenesten (TTT) https://utviklerportal.nhn.no/informasjonstjenester/helseid/tilgang-til-helseid/test-token-tjenesten/docs/test-token-tjenesten_no_nnmd/
 /// See swagger https://helseid-ttt.test.nhn.no/swagger/index.html#/TokenService
+/// 
+/// Howto regenerate testtoken:
+/// 1: Navigate to: https://selvbetjening.test.nhn.no/ttt
+/// 2: Log in with BankId
+/// 3: Click "Generate key"
+/// 4: Copy key and replace "authKey" value in this class (currently line 39)
 /// </summary>
 public static class TTTService
 {
@@ -30,7 +36,7 @@ public static class TTTService
     /// <returns></returns>
     private static async Task<string> CreateTestTokenWithApiKey_V2(TokenRequest tokenRequest,
         string baseUri = "https://helseid-ttt.test.nhn.no",
-        string authKey = "7115f2ca-4473-4ea8-aaf3-c067341413a1")
+        string authKey = "5f7ffadc-558b-4256-afb5-60c510cd5a62")
     {
         HttpClient client = new() { BaseAddress = new Uri(baseUri) };
         client.DefaultRequestHeaders.Add("X-Auth-Key", authKey);
