@@ -27,7 +27,7 @@
          For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
          or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.7.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.5.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.7.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.0.0"/>
     <!-- End direct references -->
