@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <VersionPrefix>8.1.1</VersionPrefix>
+    <VersionPrefix>8.2.0</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
