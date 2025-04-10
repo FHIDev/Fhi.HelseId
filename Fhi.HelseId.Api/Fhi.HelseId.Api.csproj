@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageProjectUrl>https://www.nuget.org/packages/Fhi.HelseId.Api</PackageProjectUrl>
     <PackageDescription>Authentication and authorization component for access to NHN HelseId</PackageDescription>
