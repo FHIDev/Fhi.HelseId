@@ -87,7 +87,7 @@ public class DPoPTests
         {
             UseDpop = useDpop
         };
-        var store = new AuthenticationService(config, apiConfig);
+        var store = new AuthenticationService(config, apiConfig, new ClientAssertionService());
         var tokenProvider = new AuthenticationStore(store, config);
         var authHandler = new HttpAuthHandler(tokenProvider);
         return authHandler;
