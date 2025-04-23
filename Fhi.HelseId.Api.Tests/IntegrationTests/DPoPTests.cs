@@ -102,10 +102,9 @@ public class DPoPTests
     private static HelseIdApiKonfigurasjon CreateConfig()
     {
         var audienceSetInTTTgeneratedToken = "fhi:helseid.testing.api";
-        var scopeSetInTTTgeneratedToken = "fhi:helseid.testing.api/all";
 
         return HelseIdApiKonfigurasjonBuilder
             .Create
-            .DefaultValues(audience: audienceSetInTTTgeneratedToken, allowedScopes: scopeSetInTTTgeneratedToken);
+            .DefaultValues(audience: audienceSetInTTTgeneratedToken);
     }
 }

@@ -19,16 +19,10 @@ namespace Fhi.HelseId.Api
         string Authority { get; }
 
         /// <summary>
-        /// Name of the API provided by this application
+        /// Audience
         /// </summary>
         [Required]
         string ApiName { get; }
-
-        /// <summary>
-        /// Scope for access to the API by a person
-        /// </summary>
-        [Required]
-        string ApiScope { get; }
 
         bool UseHttps { get; }
         bool RequireContextIdentity { get; }

@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Fhi.HelseId.Api.Authorization;
 using Fhi.HelseId.Api.DPoP;
-using Fhi.HelseId.Api.Handlers;
 using Fhi.HelseId.Api.Services;
 using Fhi.HelseId.Common;
-using Fhi.HelseId.Common.Configuration;
 using Fhi.HelseId.Common.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -31,10 +26,6 @@ public static class ServiceCollectionExtensions
         if (config.AuthUse)
         {
             services.AddScoped<ICurrentUser, CurrentHttpUser>();
-            if (config.ApiScope.Contains(',')) // We know there are multiple scopes if a komma is present
-                services.AddSingleton<IAuthorizationHandler, ApiMultiScopeHandler>();
-            else
-                services.AddSingleton<IAuthorizationHandler, ApiSingleScopeHandler>();
             services.AddScoped<IAccessTokenProvider, HttpContextAccessTokenProvider>();
 
             if (config.AllowDPoPTokens || config.RequireDPoPTokens)
