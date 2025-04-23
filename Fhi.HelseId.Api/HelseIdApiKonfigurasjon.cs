@@ -40,9 +40,7 @@ namespace Fhi.HelseId.Api
     public class HelseIdApiKonfigurasjon : HelseIdCommonKonfigurasjon, IHelseIdApiFeatures, IHelseIdApiKonfigurasjon
     {
         public string ApiName { get; set; } = "";
-        public string ApiScope { get; set; } = "";
 
-        public bool RequireContextIdentity { get; set; } = false;
         public bool AllowDPoPTokens { get; set; } = true;
         public bool RequireDPoPTokens { get; set; }
     }

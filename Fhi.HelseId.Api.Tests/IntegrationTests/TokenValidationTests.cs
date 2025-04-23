@@ -1,5 +1,4 @@
 using System.Net;
-using Fhi.HelseId.Api;
 using Fhi.HelseId.Api.ExtensionMethods;
 using Fhi.TestFramework;
 using Fhi.TestFramework.Extensions;
@@ -13,10 +12,8 @@ public class TokenValidationTests
     {
         Authority = "https://helseid-sts.test.nhn.no/",
         ApiName = "fhi:helseid.testing.api",
-        ApiScope = "fhi:helseid.testing.api/all",
         AuthUse = true,
         UseHttps = true,
-        RequireContextIdentity = true
     };
 
     private readonly WebApplicationFactoryTestHost<Program> _factory = new(services =>

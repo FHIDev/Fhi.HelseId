@@ -21,7 +21,6 @@ namespace Fhi.HelseId.Integration.Tests.HelseId.Api.Setup
             config.AuthUse = true;
             config.UseHttps = true;
             config.ApiName = audience;
-            config.RequireContextIdentity = true;
             return config;
         }
 
@@ -34,12 +33,6 @@ namespace Fhi.HelseId.Integration.Tests.HelseId.Api.Setup
         internal static HelseIdApiKonfigurasjon WithAllowDPoPTokens(this HelseIdApiKonfigurasjon config, bool allowDpopTokens)
         {
             config.AllowDPoPTokens = allowDpopTokens;
-            return config;
-        }
-
-        internal static HelseIdApiKonfigurasjon WithAllowedScopes(this HelseIdApiKonfigurasjon config, string allowedScopes)
-        {
-            config.ApiScope = allowedScopes;
             return config;
         }
     }
