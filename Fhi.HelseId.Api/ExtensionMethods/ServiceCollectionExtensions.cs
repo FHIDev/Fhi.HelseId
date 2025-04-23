@@ -39,11 +39,6 @@ public static class ServiceCollectionExtensions
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddHelseIdJwtBearer(config);
-
-            if (config.RequireContextIdentity)
-                services.AddHelseIdAuthorization(config);
-            else
-                services.AddHelseIdApiAccessOnlyAuthorization(config);
         }
     }
 

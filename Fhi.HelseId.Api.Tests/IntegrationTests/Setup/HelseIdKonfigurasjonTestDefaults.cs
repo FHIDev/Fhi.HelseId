@@ -21,6 +21,7 @@ namespace Fhi.HelseId.Integration.Tests.HelseId.Api.Setup
             config.AuthUse = true;
             config.UseHttps = true;
             config.ApiName = audience;
+            config.RequireContextIdentity = true;
             return config;
         }
 
