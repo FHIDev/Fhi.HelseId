@@ -1,4 +1,4 @@
-﻿using BlazorAppServer.Sample;
+using BlazorAppServer.Sample;
 using BlazorAppServer.Sample.Components;
 using Fhi.HelseId.Blazor;
 using Fhi.HelseId.Web.ExtensionMethods;
@@ -17,6 +17,8 @@ builder.AddHelseIdWebAuthentication()
     .Build();
 
 builder.Services.AddTransient<WeatherService>();
+
+// BlazorTokenHandler only support bearer token so UseDPoPTokens will not work
 builder.AddHelseIdForBlazor()
            .AddRefitClient<IWeatherForcastApi>();
 
