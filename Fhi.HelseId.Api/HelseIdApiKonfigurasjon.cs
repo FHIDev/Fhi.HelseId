@@ -19,19 +19,12 @@ namespace Fhi.HelseId.Api
         string Authority { get; }
 
         /// <summary>
-        /// Name of the API provided by this application
+        /// Audience
         /// </summary>
         [Required]
         string ApiName { get; }
 
-        /// <summary>
-        /// Scope for access to the API by a person
-        /// </summary>
-        [Required]
-        string ApiScope { get; }
-
         bool UseHttps { get; }
-        bool RequireContextIdentity { get; }
 
         /// <summary>
         /// Allows DPoP-authorization headers on incoming API-calls in addition to Bearer tokens.
@@ -47,9 +40,7 @@ namespace Fhi.HelseId.Api
     public class HelseIdApiKonfigurasjon : HelseIdCommonKonfigurasjon, IHelseIdApiFeatures, IHelseIdApiKonfigurasjon
     {
         public string ApiName { get; set; } = "";
-        public string ApiScope { get; set; } = "";
 
-        public bool RequireContextIdentity { get; set; } = false;
         public bool AllowDPoPTokens { get; set; } = true;
         public bool RequireDPoPTokens { get; set; }
     }

@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Fhi.HelseId.Common.DPoP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging;
 
 namespace Fhi.HelseId.Api.DPoP;
 
@@ -12,7 +12,7 @@ public interface IJwtBearerDPoPTokenHandler
 }
 
 public class JwtBearerDPoPTokenHandler(
-    IDPoPProofValidator dPoPProofValidator) : IJwtBearerDPoPTokenHandler
+    IDPoPProofValidator dPoPProofValidator, ILogger<JwtBearerDPoPTokenHandler> logger) : IJwtBearerDPoPTokenHandler
 {
     public void ValidateAuthorizationHeader(MessageReceivedContext context, bool requireDPoPTokens = true)
     {
@@ -60,6 +60,7 @@ public class JwtBearerDPoPTokenHandler(
         var validationResult = await dPoPProofValidator.Validate(data);
         if (validationResult.IsError)
         {
+            logger.LogError("Dpop validation failed {ErrorDescription}", validationResult.ErrorDescription);
             tokenValidatedContext.Fail(validationResult.ErrorDescription!);
         }
     }

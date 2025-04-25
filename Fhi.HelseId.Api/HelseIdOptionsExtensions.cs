@@ -1,9 +1,5 @@
-using Fhi.HelseId.Api.DPoP;
 using Fhi.HelseId.Api.ExtensionMethods;
-using Fhi.HelseId.Common.Configuration;
-using Fhi.HelseId.Common.Identity;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -41,56 +37,7 @@ namespace Fhi.HelseId.Api
                     }
                 });
 
-            if (!configAuth.RequireDPoPTokens)
-            {
-                builder.Services.AddHostedService<DPoPComplianceWarning>();
-            }
-
             return builder;
-        }
-
-        /// <summary>
-        /// This adds policies for requiring caller to be an user with an authenticated Identity.  Note that this might also be something else than HelseId, and might be confusing.
-        /// This policy can not be used with Worker processes.
-        /// This policy also adds the SecurityLevelOrApiRequirement requirement
-        /// </summary>
-        public static void AddHelseIdAuthorization(this IServiceCollection services, IHelseIdApiKonfigurasjon configAuth)
-        {
-            services.AddAuthorization(
-                config =>
-                {
-                    var authenticatedPolicy = new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build();
-
-                    var hidOrApiPolicy = new AuthorizationPolicyBuilder()
-                        .Combine(authenticatedPolicy)
-                        .AddRequirements(new SecurityLevelOrApiRequirement())
-                        .Build();
-
-                    config.DefaultPolicy = hidOrApiPolicy;
-
-                    config.AddPolicy(Policies.Authenticated, authenticatedPolicy);
-                    config.AddPolicy(Policies.HidOrApi, hidOrApiPolicy);
-                });
-        }
-
-        /// <summary>
-        /// This policy only adds the SecurityLevelOrApiRequirement requirement
-        /// </summary>
-        public static void AddHelseIdApiAccessOnlyAuthorization(this IServiceCollection services, IHelseIdApiKonfigurasjon configAuth)
-        {
-            services.AddAuthorization(
-                config =>
-                {
-                    var hidOrApiPolicy = new AuthorizationPolicyBuilder()
-                        .AddRequirements(new SecurityLevelOrApiRequirement())
-                        .Build();
-
-                    config.DefaultPolicy = hidOrApiPolicy;
-
-                    config.AddPolicy(Policies.HidOrApi, hidOrApiPolicy);
-                });
         }
     }
 }
