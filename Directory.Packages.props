@@ -29,7 +29,7 @@
          or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.11.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="8.11.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.9.0" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.11.0" />
     <!-- End direct references -->
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
