@@ -23,7 +23,7 @@
     <PackageVersion Include="System.Text.Json" Version="9.0.4" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.2" />
     <!-- Direct reference, System.Security.Cryptography.Xml can be removed when transitive references are fixed. (4.4.0 was vulnerable) -->
-    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.4" />
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="9.0.5" />
     <!-- Direct references for transitive references. These packages must remain in sync. 
          For more information, visit: https://docs.duendesoftware.com/identityserver/v7/troubleshooting/wilson/
          or: https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/issues/2514 -->
