@@ -3,8 +3,8 @@ updates:
 - package-ecosystem: nuget
   directory: "/"
   schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+    interval: "weekly"
+  open-pull-requests-limit: 100
   ignore:
   - dependency-name: "Microsoft.AspNetCore.Authentication.OpenIdConnect"
     versions: ["4.x", "5.x"]
