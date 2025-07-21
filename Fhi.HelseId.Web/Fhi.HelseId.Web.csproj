@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Fhi.HelseId.Common\Fhi.HelseId.Common.csproj" />    
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" VersionOverride="8.0.18" />
     <None Include="../Fhi.HelseId.Web/README.md" Pack="true" PackagePath="/" />
     <None Include="../Fhi.HelseId.Web/CONTRIBUTORS.md" Pack="true" PackagePath="/" />
   </ItemGroup>
