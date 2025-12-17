@@ -1,0 +1,22 @@
+{
+    "extends": [
+        "github>fhidev/.github"
+    ],
+    "packageRules": [
+        {
+            "description": "Stay on .NET 9-compatible ASP.NET Core/EF/Extensions until we upgrade TFM",
+            "matchManagers": [
+                "nuget"
+            ],
+            "allowedVersions": "<10.0.0",
+            "matchPackageNames": [
+                "/^Microsoft\\.AspNetCore\\./",
+                "/^Microsoft\\.Extensions\\./",
+                "/^Microsoft\\.EntityFrameworkCore/",
+                "/^Microsoft\\.AspNetCore\\.Mvc\\.Testing$/",
+                "dotnet-sdk",
+                "dotnet-ef"
+            ]
+        }
+    ]
+}
